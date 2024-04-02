@@ -1,4 +1,4 @@
-import "./App.css";
+
 import { ethers } from "ethers";
 import { useContracts } from "./hooks/useContract";
 if (window.ethereum) {
