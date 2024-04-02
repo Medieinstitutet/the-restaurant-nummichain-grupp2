@@ -1,5 +1,5 @@
 export const account = '0xeA4A1d1fECCFF80746ed9e8e4dCe1316D3DA130'
-
+export const contractAddress='0x6C47E1f94e413Bb3B1D8063391fC2940881Da6bF'
 export const abi = [
     {
       "inputs": [],
