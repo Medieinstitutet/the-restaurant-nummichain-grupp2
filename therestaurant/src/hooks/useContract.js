@@ -22,6 +22,7 @@ export const useContract = () => {
         };
 
         setupContracts();
+    
     }, []);
 
     return { readContract, writeContract };
