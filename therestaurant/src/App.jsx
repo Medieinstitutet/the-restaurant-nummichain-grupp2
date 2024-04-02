@@ -1,7 +1,7 @@
 import "./App.css";
-import { BookingComponent } from "./components/Booking";
+
 function App() {
-  return <BookingComponent/>;
+  return <></>;
 }
 
-export default App;
+export default App
