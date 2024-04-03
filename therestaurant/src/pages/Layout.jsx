@@ -1,23 +1,41 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import "../styles/main.scss";
+import { Outlet } from "react-router-dom";
+import { Logo } from "../components/Logo";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
+import "../styles/layout.scss";
+
+const isPhone = () => {
+    const phonePattern =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    return phonePattern.test(navigator.userAgent);
+};
 
 export const Layout = () => {
     return (
-      <div className="wrapper">
-        <header>
-          <nav>
-            <ul>
-              <li><NavLink to={"/"}>Home</NavLink></li>
-              <li><NavLink to={"/booking"}>Booking</NavLink></li>
-              <li><NavLink to={"/contact"}>Contact</NavLink></li>
-              <li><NavLink to={"/admin"}>Admin</NavLink></li>
-            </ul>
-          </nav>
-        </header>
-        <main>
-          <Outlet />
-        </main>
-        <footer></footer>
-      </div>
+        <>
+            <header>
+                {isPhone() ? (
+                    <>
+                        <details>
+                            <summary>
+                                <Logo width={250} height={50} isBlack={true} />
+                            </summary>
+                            <Navbar />
+                        </details>
+                    </>
+                ) : (
+                    <>
+                        <Logo width={250} height={50} isBlack={true} />
+                        <Navbar />
+                    </>
+                )}
+            </header>
+            <main>
+                <Outlet />
+            </main>
+            <footer>
+                <Footer />
+            </footer>
+        </>
     );
-  };
+};
