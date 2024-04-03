@@ -4,7 +4,7 @@ $default-font: "Poppins", sans-serif;
 
 /* Website Color Palette */
 $bg-color: #fefdfa;
-$primaryColor: #ff9d03;
+$primaryColor: #ff9942;
 $primaryColor2: #242525;
 $accentColor2: #fce3af;
 
@@ -80,6 +80,8 @@ body {
     min-height: 100vh;
     line-height: 1.5;
     background-color: $bg-color;
+    position: relative;
+    overflow-x: hidden;
 
     @include medium-screen {
         padding: 2rem 4rem 0 4rem;
