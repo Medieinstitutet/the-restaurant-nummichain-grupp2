@@ -6,6 +6,8 @@
     gap: 2rem;
 
     header {
+        position: relative;
+
         @include global.small-screen {
             background: linear-gradient(300deg, #ff723bf1, #ffb247f3);
             padding: 20px 30px;
@@ -17,14 +19,37 @@
             justify-content: space-between;
             align-items: center;
             height: 12dvh;
+        }
 
+        @include global.large-screen {
             &::before {
                 content: "";
                 position: absolute;
-                top: -35vh;
-                right: -20vh;
-                width: 52%;
-                height: 52%;
+                top: -280vh;
+                right: -49vw;
+                width: 110vw;
+                height: 300vh;
+                background-image: repeating-radial-gradient(
+                        circle at 0 0,
+                        transparent 0,
+                        #ffb347 100%
+                    ),
+                    repeating-linear-gradient(#ff723b, #ff723b);
+                background-color: #ffb347;
+                border-radius: 50%;
+                z-index: -1;
+                transition: all 0.5s ease;
+            }
+        }
+
+        @include global.medium-screen {
+            &::before {
+                content: "";
+                position: absolute;
+                top: -280vh;
+                right: -43vw;
+                width: 110vw;
+                height: 300vh;
                 background-image: repeating-radial-gradient(
                         circle at 0 0,
                         transparent 0,
