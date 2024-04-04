@@ -97,10 +97,10 @@ export const BookingForm = ({onFormSubmit}) => {
                 </label>
                 <br/>
                 <button type="button" className={bookingForm.time === '18:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('18:00')}>
-                    18:00 - IN WORKING PROGRESS
+                    18:00 
                 </button>
                 <button type="button" className={bookingForm.time === '21:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('21:00')}>
-                    21:00 - IN WORKING PROGRESS
+                    21:00 
                 </button>
                 <br />
                 <button type="submit">Submit</button>

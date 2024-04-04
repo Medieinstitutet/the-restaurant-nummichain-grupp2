@@ -71,10 +71,7 @@ const handleFormSubmit = (bookingData) => {
 
     return(
         <>
-       <div>
-       <button className="button" onClick={bookingContract}>Create Booking</button>
-            {booking && <p>{booking}</p>}
-       </div>
+    
        <div>
             <button onClick={readBookings}>Fetch Bookings</button>
            
