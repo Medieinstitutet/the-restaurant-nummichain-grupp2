@@ -20,10 +20,11 @@ export const BookingComponent = () => {
     const restaurantId = 123
 
   
-    
-          
+    const newNumberOfGuests = ethers.toBigInt(numberOfGuests);
+   
+    //const newTime = ethers.BigNumber.from(time)      
         
-    
+  
       
 
 useEffect(() => {
@@ -102,6 +103,16 @@ const readBookings = async() => {
     
 }
 
+const handleFormSubmit = (bookingData) => {
+    const newNumberOfGuests = ethers.toBigInt(bookingData.numberOfGuests)
+    console.log(newNumberOfGuests);
+    console.log(bookingData);
+    console.log(bookingData.numberOfGuests);
+    console.log(bookingData.name);
+    console.log(bookingData.date);
+    console.log(bookingData.time);
+}
+
  
 
     return(
@@ -128,7 +139,7 @@ const readBookings = async() => {
                     </div>
                 ))}
             </div>
-        <BookingForm/>
+        <BookingForm onFormSubmit={handleFormSubmit}/>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/booking-form.scss'
 
-export const BookingForm = () => {
+export const BookingForm = ({onFormSubmit}) => {
     const [bookingForm, setBookingForm] = useState({
         numberOfGuests: '',
         name: '',
@@ -9,7 +9,7 @@ export const BookingForm = () => {
         time: '',
         restaurantId: ''
     });
-
+    
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleInputChange = (e) => {
@@ -29,6 +29,8 @@ export const BookingForm = () => {
         }
        
         console.log('Form submitted:', bookingForm);
+        //pass the component
+        onFormSubmit(bookingForm);
         // reeset
         setBookingForm({
             numberOfGuests: '',
