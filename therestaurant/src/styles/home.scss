@@ -1,3 +1,5 @@
+@use "./global.scss";
+
 .homepage-container {
     background-image: url('./src/content/homepageimage.jpg');
     background-size: cover;
@@ -10,39 +12,39 @@
   }
   
   .content-container {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    padding: 50px;
-    border-radius: 10px; /* Rounded corners */
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 800px;
+    height: 350px;
+    border-radius: 10px;
     text-align: center;
-    color: white; /* Set text color to white for better contrast */
+    color: white;
   }
   
   h1 {
-    font-size: 3em; /* Adjust font size based on your preference */
-    margin-bottom: 20px; /* Add space below the heading */
-    font-family: 'Roboto', sans-serif; /* Using Roboto font for a modern look */
-    font-weight: bold; /* Make the heading text bold */
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-weight: bold;
   }
   
   button {
-    background-color: #f01e5f; /* Adjust button color as needed  */
-    color: white; /* Set button text color */
-    padding: 15px 30px; /* Increase padding for a bigger button */
-    border: none; /* Remove default button border */
-    border-radius: 5px; /* Add rounded corners */
-    cursor: pointer; /* Set cursor to indicate interactivity */
-    font-size: 1.2em; /* Increase button text size */
-    font-weight: bold; /* Make button text bold */
-    margin-top: 20px; /* Add space above the button */
+    background-color: #f01e5f;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
   }
   
   button:hover {
-    background-color: #d91c52; /* Change button color on hover */
+    background-color: #d91c52;
   }
   
   .description-container {
-    margin-top: 20px; /* Add space above the description text */
-    font-size: 1.2em; /* Adjust font size for descriptions */
-    line-height: 1.5; /* Increase line spacing for better readability */
-    font-style: italic; /* Add a slight italic style for emphasis */
+    margin-top: 20px;
+    font-size: 1.2em;
+    line-height: 1.5;
+    font-style: italic;
   }
