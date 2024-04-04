@@ -1,5 +1,7 @@
 import { ethers } from "ethers";
-import { BookingComponent } from "./components/Booking";
+
+import { BookingComponent } from "./components/Booking ";
+
 if (window.ethereum) {
     window.provider = new ethers.BrowserProvider(window.ethereum);
 } else {

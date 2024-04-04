@@ -20,14 +20,23 @@ export const BookingForm = ({onFormSubmit}) => {
         });
     };
 
+    const handleTimeButtonClick = (time) => {
+        setBookingForm({
+            ...bookingForm,
+            time: time // setting a time, type:time (converted to number in the contract)
+        });
+        console.log(time);//checking the time returns to the console correctly 
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // validate that all imputs are present
+        // validate imputs
         if (!bookingForm.numberOfGuests || !bookingForm.name || !bookingForm.date || !bookingForm.time || !bookingForm.restaurantId) {
             setErrorMessage('Please fill in all fields.');
             return;
         }
-       
+    
+
         console.log('Form submitted:', bookingForm);
         //pass the component
         onFormSubmit(bookingForm);
@@ -78,16 +87,6 @@ export const BookingForm = ({onFormSubmit}) => {
                 </label>
                 <br />
                 <label>
-                    Time:
-                    <input
-                        type="time"
-                        name="time"
-                        value={bookingForm.time}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <br />
-                <label>
                     Restaurant ID:
                     <input
                         type="text"
@@ -96,6 +95,13 @@ export const BookingForm = ({onFormSubmit}) => {
                         onChange={handleInputChange}
                     />
                 </label>
+                <br/>
+                <button type="button" className={bookingForm.time === '18:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('18:00')}>
+                    18:00 - IN WORKING PROGRESS
+                </button>
+                <button type="button" className={bookingForm.time === '21:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('21:00')}>
+                    21:00 - IN WORKING PROGRESS
+                </button>
                 <br />
                 <button type="submit">Submit</button>
             </form>

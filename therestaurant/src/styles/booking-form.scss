@@ -43,13 +43,15 @@
     background-color: #b30083;
 }
 
+.booking-form button.selected {
+    background-color: #b30083; //selected button CSS
+}
+
 .booking-form .error-message {
     color: red;
     margin-bottom: 10px;
     text-align: center;
 }
-
-
 button {
     width: 100%;
     padding: 10px;
