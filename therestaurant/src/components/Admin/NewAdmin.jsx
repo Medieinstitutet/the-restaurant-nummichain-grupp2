@@ -1,7 +1,17 @@
 
 const NewAdmin=() => {
+
+const submitHandeler=(event)=>{
+    event.preventDefault();
+
+const fd= new FormData(event.target);
+const data= Object.fromEntries(fd.entries())
+console.log(data)
+}
+
+
     return (
-      <form className="adminform">
+      <form className="adminform" onSubmit={submitHandeler}>
         <h2>Add a new Employee</h2>
 
   
@@ -78,6 +88,13 @@ const NewAdmin=() => {
           <label htmlFor="terms-and-conditions">
             <input type="checkbox" id="terms-and-conditions" name="terms" />I
             agree that I did a background check on the new employee
+            
+          </label>
+        </div>
+        <div className="control">
+          <label htmlFor="terms-and-conditions">
+            <input type="checkbox" id="terms-and-conditions" name="terms" />I
+            agree that the new employee has a meta mask wallet to connect
           </label>
         </div>
   
