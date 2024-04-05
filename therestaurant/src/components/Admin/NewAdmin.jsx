@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../../UI/Input";
-
+// import {isEmail, isNotEmpty,isEqualsToOtherValkue} from "../../utils/validation"
 
 const NewAdmin=() => {
 
@@ -36,7 +36,6 @@ event.target.reset();
         </div>
   
         <div className="control-row">
-            <Input label="password" id="email" name="email"/>
           <div className="control">
             <Input label="Password" id="password" type="password" name="password" />
           </div>
