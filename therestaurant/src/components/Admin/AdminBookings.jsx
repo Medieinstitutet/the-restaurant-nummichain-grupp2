@@ -1,54 +1,98 @@
-// import { useState } from 'react';
-// import { useBookings, useManageBookings } from './useCallback(
-//   () => {
-//     first
-//   },
-//   [second],
-// )
-// ';
+import { useState } from "react";
+import { useBookings } from "../../hooks/useBookings";
+import { useManageBookings } from "../../hooks/useManageBookings";
+import { useContracts } from "../../hooks/useContract";
+import Input from "../../UI/Input";
+const AdminInterface = ({ restaurantId }) => {
+  const [writeContract] = useContracts();
+  const { createBooking, removeBooking } = useManageBookings(writeContract);
+  const bookings = useBookings(restaurantId);
 
-// const AdminInterface = ({ restaurantId }) => {
-//   const bookings = useBookings(restaurantId);
-//   const { createBooking, removeBooking } = useManageBookings();
-//   const [guests, setGuests] = useState('');
-//   const [name, setName] = useState('');
-//   const [date, setDate] = useState('');
-//   const [time, setTime] = useState('');
+  const [guests, setGuests] = useState("1");
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
-//   const handleCreateBooking = async (e) => {
-//     e.preventDefault();
-//     // Assuming your inputs are validated
-//     await createBooking(parseInt(guests, 10), name, date, time, restaurantId);
-//     // Reset form fields or provide feedback to the user
-//   };
+  const today = new Date().toISOString().split('T')[0];
 
-//   const handleRemoveBooking = async (id) => {
-//     await removeBooking(id);
-//     // Provide feedback or refresh the bookings list
-//   };
+  const handleCreateBooking = async (e) => {
+    e.preventDefault();
 
-//   return (
-//     <div>
-//       <h2>Manage Bookings</h2>
-//       <form onSubmit={handleCreateBooking}>
-//         <input type="number" placeholder="Number of Guests" value={guests} onChange={(e) => setGuests(e.target.value)} />
-//         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-//         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-//         <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-//         <button type="submit">Create Booking</button>
-//       </form>
+    await createBooking(parseInt(guests, 6), name, date, time, restaurantId);
+  };
 
-//       <h3>Current Bookings</h3>
-//       <ul>
-//         {bookings.map((booking) => (
-//           <li key={booking.id}>
-//             {booking.name} - {booking.date} at {booking.time}
-//             <button onClick={() => handleRemoveBooking(booking.id)}>Remove</button>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+  const handleRemoveBooking = async (id) => {
+    await removeBooking(id);
+  };
 
-// export default AdminInterface;
+  return (
+    <div>
+      <h2>Manage Bookings</h2>
+      <form onSubmit={handleCreateBooking}>
+      <Input
+          label="date of arrive"
+          type="date"
+          min={today}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
+        />
+
+        <div>
+          <label htmlFor="timeSlot">Time Slot</label>
+          <select
+            name="timeSlot"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          >
+            <option value="18:00">18:00 - 21:00</option>
+            <option value="21:00">21:00 - 00:00</option>
+          </select>
+        </div>
+       <div>
+       <p>XX Tables available in this settings</p>
+        <Input
+          label="number of tables"
+          type="number"
+          placeholder="Number of Tables"
+          value={guests}
+          onChange={(e) => setGuests(e.target.value)}
+          min="1"
+          max="15"
+          step="1"
+          onInput={(e) =>
+            (e.target.value = Math.max(1, parseInt(e.target.value)).toString())
+          }
+          required
+        />
+      
+    
+        </div>
+        <Input
+          label="customer name"
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        
+        <button type="submit">Confirm Booking</button>
+      </form>
+
+      <h3>Current Bookings</h3>
+      <ul>
+        {bookings.map((booking) => (
+          <li key={booking.id}>
+            {booking.name} - {booking.date} at {booking.time}
+            <button onClick={() => handleRemoveBooking(booking.id)}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default AdminInterface;

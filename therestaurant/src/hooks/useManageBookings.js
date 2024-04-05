@@ -1,6 +1,7 @@
-import { useContracts } from "./useContract";
-export const useManageBookings = () => {
-    const [writeContract] = useContracts(); // Assuming useContracts() is set up correctly
+
+
+export const useManageBookings = (writeContract) => {
+
 
     const createBooking = async (numberOfGuests, name, date, time, restaurantId) => {
         if (!writeContract) return;
@@ -15,6 +16,18 @@ export const useManageBookings = () => {
             console.error("Error creating booking:", error);
         }
     };
+    const editBooking = async (id, numberOfGuests, name, date, time) => {
+        if (!writeContract) return;
+
+        try {
+            const transaction = await writeContract.editBooking(id, numberOfGuests, name, date, time);
+            await transaction.wait();
+            console.log("Booking edited successfully");
+        } catch (error) {
+            console.error("Error editing booking:", error);
+        }
+    };
+
 
     const removeBooking = async (bookingId) => {
         if (!writeContract) return;
@@ -28,5 +41,5 @@ export const useManageBookings = () => {
         }
     };
 
-    return { createBooking, removeBooking };
+    return { createBooking, removeBooking,editBooking };
 };
