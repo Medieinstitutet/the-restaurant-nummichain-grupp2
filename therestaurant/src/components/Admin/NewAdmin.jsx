@@ -1,12 +1,23 @@
-
+import { useState } from "react";
 const NewAdmin=() => {
+
+    const [passwordsAreNotEqual, setPasswordAreNotEqual]=useState(false);
 
 const submitHandeler=(event)=>{
     event.preventDefault();
 
 const fd= new FormData(event.target);
 const data= Object.fromEntries(fd.entries())
-console.log(data)
+
+
+
+ if(data.password !== data['confirm-password']){
+    setPasswordAreNotEqual(true);
+    return
+ }
+ console.log(data)
+
+event.target.reset();
 }
 
 
@@ -17,7 +28,7 @@ console.log(data)
   
         <div className="control">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" />
+          <input id="email" type="email" name="email" required/>
         </div>
   
         <div className="control-row">
@@ -33,7 +44,9 @@ console.log(data)
               type="password"
               name="confirm-password"
             />
+             <div className="control-error">{passwordsAreNotEqual&& <p>Passwords must match</p>}</div>
           </div>
+         
         </div>
   
         <hr />
@@ -41,18 +54,18 @@ console.log(data)
         <div className="control-row">
           <div className="control">
             <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" />
+            <input type="text" id="first-name" name="first-name" required />
           </div>
   
           <div className="control">
             <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last-name" />
+            <input type="text" id="last-name" name="last-name" required />
           </div>
         </div>
   
         <div className="control">
           <label htmlFor="phone">What best describes your role?</label>
-          <select id="role" name="role">
+          <select id="role" name="role" required>
             <option value="admin">Admin</option>
             <option value="manager">Manager</option>
             <option value="employee">Employee</option>
@@ -86,14 +99,14 @@ console.log(data)
   
         <div className="control">
           <label htmlFor="terms-and-conditions">
-            <input type="checkbox" id="terms-and-conditions" name="terms" />I
+            <input type="checkbox" id="terms-and-conditions" name="terms" required/>I
             agree that I did a background check on the new employee
             
           </label>
         </div>
         <div className="control">
           <label htmlFor="terms-and-conditions">
-            <input type="checkbox" id="terms-and-conditions" name="terms" />I
+            <input type="checkbox" id="terms-and-conditions" name="terms" required />I
             agree that the new employee has a meta mask wallet to connect
           </label>
         </div>
