@@ -31,20 +31,20 @@ event.target.reset();
 
   
         <div className="control">
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" required/>
+
+          <Input label="email" id="email" type="email" name="email" required/>
         </div>
   
         <div className="control-row">
-            <Input/>
+            <Input label="password" id="email" name="email"/>
           <div className="control">
-            <label htmlFor="password">Password</label>
-            <input id="password" type="password" name="password" />
+            <Input label="Password" id="password" type="password" name="password" />
           </div>
   
           <div className="control">
-            <label htmlFor="confirm-password">Confirm Password</label>
-            <input
+
+            <Input
+            label="Confirm Password"
               id="confirm-password"
               type="password"
               name="confirm-password"
@@ -58,13 +58,12 @@ event.target.reset();
   
         <div className="control-row">
           <div className="control">
-            <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" required />
+
+            <Input label="first name" type="text" id="first-name" name="first-name" required />
           </div>
   
           <div className="control">
-            <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last-name" required />
+            <Input label="last name" type="text" id="last-name" name="last-name" required />
           </div>
         </div>
   
