@@ -1,5 +1,5 @@
 import Login from "../components/Admin/Login";
-
+import '../styles/login.scss'
 export const Admin = () => {
     return (
         <>
