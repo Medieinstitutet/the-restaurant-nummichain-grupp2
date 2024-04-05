@@ -1,20 +1,18 @@
 
-import { useState } from "react";
+import { useRef } from "react";
 export default function Login() {
     
-    const[enteredEmail, setEnteredEmail]=useState('');
-//  const [enteredPassword, setEnteredPassword]= useState('');
+const email=useRef();
+const password=useRef();
 
 const submitHandeler=(event)=>{
     event.preventDefault();
-  console.log('user Email:'+ enteredEmail) ;
+
+const enteredEmail =email.current.value;
+const enteredPassword =password.current.value;
+
+console.log(enteredEmail,enteredPassword)
 }
- const emailChangeHandeler=(event)=>{
-    setEnteredEmail(event.target.value);
-   
- }
-
-
     
     return (
       <form className="adminform" onSubmit={submitHandeler}>
@@ -23,12 +21,12 @@ const submitHandeler=(event)=>{
         <div className="control-row">
           <div className="control no-margin">
             <label htmlFor="email">Email</label>
-            <input id="email" type="email" name="email" onChange={emailChangeHandeler} value={enteredEmail}/>
+            <input id="email" type="email" name="email" ref={email}/>
           </div>
   
           <div className="control no-margin">
             <label htmlFor="password">Password</label>
-            <input id="password" type="password" name="password" />
+            <input id="password" type="password" name="password" ref={password}/>
           </div>
         </div>
   
