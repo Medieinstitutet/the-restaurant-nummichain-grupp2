@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Input from "../../UI/Input";
+
+
 const NewAdmin=() => {
 
     const [passwordsAreNotEqual, setPasswordAreNotEqual]=useState(false);
@@ -22,6 +25,7 @@ event.target.reset();
 
 
     return (
+
       <form className="adminform" onSubmit={submitHandeler}>
         <h2>Add a new Employee</h2>
 
@@ -32,6 +36,7 @@ event.target.reset();
         </div>
   
         <div className="control-row">
+            <Input/>
           <div className="control">
             <label htmlFor="password">Password</label>
             <input id="password" type="password" name="password" />
