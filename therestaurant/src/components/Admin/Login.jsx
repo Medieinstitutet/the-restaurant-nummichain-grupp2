@@ -1,18 +1,16 @@
 
-import { useRef } from "react";
+
 export default function Login() {
     
-const email=useRef();
-const password=useRef();
+    const submitHandeler=(event)=>{
+        event.preventDefault();
+    
+    const fd= new FormData(event.target);
+    const data= Object.fromEntries(fd.entries())
+    console.log(data)
+    }
 
-const submitHandeler=(event)=>{
-    event.preventDefault();
 
-const enteredEmail =email.current.value;
-const enteredPassword =password.current.value;
-
-console.log(enteredEmail,enteredPassword)
-}
     
     return (
       <form className="adminform" onSubmit={submitHandeler}>
@@ -21,12 +19,12 @@ console.log(enteredEmail,enteredPassword)
         <div className="control-row">
           <div className="control no-margin">
             <label htmlFor="email">Email</label>
-            <input id="email" type="email" name="email" ref={email}/>
+            <input id="email" type="email" name="email" />
           </div>
   
           <div className="control no-margin">
             <label htmlFor="password">Password</label>
-            <input id="password" type="password" name="password" ref={password}/>
+            <input id="password" type="password" name="password"/>
           </div>
         </div>
   
