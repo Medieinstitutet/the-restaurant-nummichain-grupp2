@@ -14,6 +14,17 @@ export const useManageBookings = (writeContract) => {
         }
     };
 
+    const editBooking = async (id, numberOfGuests, name, date, time) => {
+        if (!writeContract) return;
+
+        try {
+            const transaction = await writeContract.editBooking(id, numberOfGuests, name, date, time);
+            await transaction.wait();
+            console.log("Booking edited successfully");
+        } catch (error) {
+            console.error("Error editing booking:", error);
+        }
+    };
     const removeBooking = async (bookingId) => {
         if (!writeContract) return;
 
@@ -26,5 +37,5 @@ export const useManageBookings = (writeContract) => {
         }
     };
 
-    return { createBooking, removeBooking };
+    return { createBooking, removeBooking,editBooking };
 };
