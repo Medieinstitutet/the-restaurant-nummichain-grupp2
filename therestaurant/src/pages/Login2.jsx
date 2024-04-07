@@ -1,4 +1,6 @@
 import Input from "../components/Input";
+import "../styles/login.scss";
+
 export default function Login() {
    
     const submitHandeler=(event)=>{
