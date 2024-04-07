@@ -6,6 +6,8 @@ import { Layout } from './pages/Layout';
 import { Admin } from './pages/Admin';
 import { NotFound } from './pages/NotFound';
 import Login from './pages/Login2';
+//import CreateRestaurantPage from './pages/CreateRestaurant';
+import ManageBookings from './pages/ManageBookings';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,17 @@ export const router = createBrowserRouter([
       {
         path: '/admin',
         element: <Admin />,
+        children: [
+         
+          {
+            path: 'create-restaurant', 
+            element: <CreateRestaurantPage />,
+          },
+          {
+            path: 'manage-bookings',
+            element: <ManageBookings />,
+          },
+        ],
       },
     ],
   },
