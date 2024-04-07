@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Routes, Route } from 'react-router-dom';
 import CreateRestaurant from '../components/RestaurantCreator';
+import '../styles/admin.scss';
 // import ManageBookings from './ManageBookings';
 // Import other components as needed
 
