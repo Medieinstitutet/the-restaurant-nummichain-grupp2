@@ -1,12 +1,26 @@
-
-import React from 'react';
-import RestaurantCreator from '../components/RestaurantCreator';
+import React, { useState } from 'react';
+import { NavLink, Routes, Route } from 'react-router-dom';
+import CreateRestaurant from '../components/RestaurantCreator';
+// import ManageBookings from './ManageBookings';
+// Import other components as needed
 
 export const Admin = () => {
     return (
-        <>
-        <h1>Admin</h1>
-        <RestaurantCreator />
-        </>
+        <div className="admin-container">
+            <nav className="admin-sidebar">
+                <ul>
+                    <li><NavLink to="/admin/create-restaurant">Create Restaurant</NavLink></li>
+                    <li><NavLink to="/admin/manage-bookings">Manage Bookings</NavLink></li>
+                    {/* Add more links as needed */}
+                </ul>
+            </nav>
+            <main className="admin-content">
+                <Routes>
+                    <Route path="/create-restaurant" element={<CreateRestaurant />} />
+                    {/* <Route path="/manage-bookings" element={<ManageBookings />} /> */}
+                    {/* Define more routes as needed */}
+                </Routes>
+            </main>
+        </div>
     );
-  }
+};
