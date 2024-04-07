@@ -24,6 +24,11 @@ export const Navbar = () => {
                     </NavLink>
                 </li>
                 <li>
+                    <NavLink to={"/login"} style={linkState}>
+                        Login
+                    </NavLink>
+                </li>
+                <li>
                     <NavLink to={"/admin"} style={linkState}>
                         Admin
                     </NavLink>

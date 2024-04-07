@@ -5,6 +5,7 @@ import { Booking } from './pages/Booking';
 import { Layout } from './pages/Layout';
 import { Admin } from './pages/Admin';
 import { NotFound } from './pages/NotFound';
+import Login from './pages/Login2';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: '/booking',
         element: <Booking />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
       },
       {
         path: '/admin',
