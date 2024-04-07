@@ -6,8 +6,8 @@ import { Layout } from './pages/Layout';
 import { Admin } from './pages/Admin';
 import { NotFound } from './pages/NotFound';
 import Login from './pages/Login2';
-//import CreateRestaurantPage from './pages/CreateRestaurant';
 import ManageBookings from './pages/ManageBookings';
+import RestaurantCreator from './components/RestaurantCreator';
 
 export const router = createBrowserRouter([
   {
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
          
           {
             path: 'create-restaurant', 
-            element: <CreateRestaurantPage />,
+            element: <RestaurantCreator />,
           },
           {
             path: 'manage-bookings',
