@@ -13,7 +13,23 @@ export default function Login() {
  
    
     return (
-        <>
-        </>
+              <form className="adminform" onSubmit={submitHandeler}>
+        <h2>Login</h2>
+ 
+        <div className="control-row">
+          <div className="control no-margin">
+            <Input label="email" id="email" type="email" name="email" required />
+          </div>
+ 
+          <div className="control no-margin">
+            <Input label="password" id="password" type="password" name="password" required/>
+          </div>
+        </div>
+ 
+        <p className="form-actions">
+          <button className="button button-flat">Reset</button>
+          <button className="button">Login</button>
+        </p>
+      </form>
     );
   }
