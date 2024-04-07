@@ -30,7 +30,6 @@ export const Navbar = () => {
                 </li>
                 <li>
                     <NavLink to={"/admin"} style={linkState}>
-                        Admin
                     </NavLink>
                 </li>
             </ul>
