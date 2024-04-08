@@ -291,7 +291,7 @@ const AdminInterface = () => {
             key={booking.id}
             style={{
               borderBottom:
-                index !== filteredBookings.length - 1
+                index !== filteredBookingsData.length - 1
                   ? "1px solid #ccc"
                   : "none",
             }}
