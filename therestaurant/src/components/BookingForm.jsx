@@ -69,7 +69,6 @@ export const BookingForm = ({ onFormSubmit, bookings }) => {
     return (
         <div>
             <h2>New Booking</h2>
-            {String(hasSlotTimePassed("20:59"))}
             <form className="booking-form" onSubmit={handleSubmit}>
                 <label>
                     Number of Guests:
