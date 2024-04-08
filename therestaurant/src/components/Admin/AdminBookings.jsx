@@ -1,40 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
-import Input from "../../UI/Input";
+
 import useBookingManagement from "../../hooks/useBookingManagement";
-// import memoize from 'memoize-one';
+// import useGuestAndTableCount from '../../hooks/useGuestAndTableCount';
 
-const timeSlotMapping = {
-  "18:00 - 21:00": BigInt(1),
-  "21:00 - 00:00": BigInt(2),
-};
-// const totalSeats = 15 * 6;
-// Function to reverse the time slot mapping
-const reverseTimeSlotMapping = (num) => {
-  for (const [key, value] of Object.entries(timeSlotMapping)) {
-    if (value === num) {
-      return key;
-    }
-  }
-  // Return "21:00 - 00:00" if num equals 2, otherwise default to "18:00 - 21:00"
-  return num === 2 ? "21:00 - 00:00" : "18:00 - 21:00";
-};
+import Input from "../../UI/Input";
 
-// const filterBookings = memoize((bookings, selectedDate, selectedTimeSlot) => {
-//   return bookings.filter(booking =>
-//     (!selectedDate || booking.date === selectedDate) &&
-//     (!selectedTimeSlot || booking.time === timeSlotMapping[selectedTimeSlot])
-//   );
-// });
-// const countGuestsByDayAndTimeSlot = (bookings) => {
-//   const guestCount = {};
-//   bookings.forEach((booking) => {
-//     const key = `${booking.date}-${reverseTimeSlotMapping(booking.time)}`;
-//     const numberOfGuestsParsed = parseInt(booking.numberOfGuests, 10);
-//     guestCount[key] = (guestCount[key] || 0) + numberOfGuestsParsed;
-//   });
-//   return guestCount;
-// };
+import { timeSlotMapping, reverseTimeSlotMapping } from "../../utils/timeSlot";
 
 const AdminInterface = () => {
   const [readContract, writeContract] = useContracts();
@@ -101,18 +73,17 @@ const AdminInterface = () => {
       console.log("Total Booked Tables:", totalBookedTables);
 
       setGuestCount(guestCount);
-      setAvailableTables(Math.max(15 - totalBookedTables, 0)); 
+      setAvailableTables(Math.max(15 - totalBookedTables, 0));
       setTablesBookedByCustomer(tablesBookedByCustomer);
       setTableAvailabilityMessage("");
     } else {
-
       setTableAvailabilityMessage(
         "Please select a date and time to check table availability.",
       );
-     
+
       setGuestCount({});
       setTablesBookedByCustomer({});
-      setAvailableTables(15); 
+      setAvailableTables(15);
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
@@ -130,73 +101,31 @@ const AdminInterface = () => {
     );
   }, [bookings, selectedDate, selectedTimeSlot]);
 
-  
   useEffect(() => {
     const filteredBookings = filterBookingsByDateAndTimeSlot();
     setFilteredBookings(filteredBookings);
   }, [filterBookingsByDateAndTimeSlot]);
 
-  // Update filtered bookings based on selected date and time slot
-  // useEffect(() => {
-  //   const filteredBookings = filterBookingsByDateAndTimeSlot();
-  //   setFilteredBookings(filteredBookings);
-  // }, [filterBookingsByDateAndTimeSlot]);
-  // const filteredSearchedBookings = useMemo(() => {
-  //   return filteredBookings.filter(booking =>
-  //     booking.name.toLowerCase().includes(searchBookings.toLowerCase())
-  //   );
-  // }, [filteredBookings, searchBookings]);
-
-  //  useEffect(() => {
-  //   const [tablesBookedByCustomer])GuestsByDayAndTimeSlot = (bookings) => {
-  //     const guestCount = {};
-  //     const customerBookings = {};//////////////////////////
-  //     bookings.forEach((booking) => {
-  //       const key = `${booking.date}-${reverseTimeSlotMapping(booking.time)}`;
-  //       const numberOfGuestsParsed = parseInt(booking.numberOfGuests, 10);
-  //       guestCount[key] = (guestCount[key] || 0) + numberOfGuestsParsed;
-  //       if (!customerBookings[booking.name]) { /////
-  //         customerBookings[booking.name] = 1;////////
-  //       } else { ///////
-  //         customerBookings[booking.name]++; /////
-  //       }/////////
-  //     });//////////
-  //     return { guestCount, customerBookings };/////////////
-
-  //   };
-
-  //   const { guestCount, customerBookings } = countGuestsByDayAndTimeSlot(bookings);
-  //   setGuestCount(guestCount);
-  //   setCustomerBookings(customerBookings);
-
-  //   const bookedSeats = Object.values(guestCount).reduce((acc, cur) => acc + cur, 0);
-  //   const remainingSeats = totalSeats - bookedSeats;
-  //   setAvailableTables(Math.floor(remainingSeats / 6));
-  // }, [bookings]);
-
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       const numberOfGuestsParsed = parseInt(guests, 10);
-       const requestedTables = Math.ceil(numberOfGuestsParsed / 6);
+      const requestedTables = Math.ceil(numberOfGuestsParsed / 6);
 
       const timeSlotNumber = timeSlotMapping[time];
       console.log(typeof timeSlotNumber);
-      // const key = `${date}-${time}`;
-      // console.log(typeof(time))
-      // if (guestCount[key] + numberOfGuestsParsed > availableSeats) {
-      //   alert(`No available seats for the selected date and time slot! remaining seats: ${availableSeats}`);
-      //   return;
-      // }
-      if (availableTables <= 0 ) {
+
+      if (availableTables <= 0) {
         alert(
           "Sorry, the restaurant is fully booked for the selected date and time slot.",
         );
         return;
       }
       if (availableTables < requestedTables) {
-        alert(`Sorry, there are not enough tables available for the number of guests. We have ${availableTables}tables left for the resquested date and time slot`);
-        return; 
+        alert(
+          `Sorry, there are not enough tables available for the number of guests. We have ${availableTables}tables left for the resquested date and time slot`,
+        );
+        return;
       }
 
       if (isEditing && editingBookingId) {
@@ -315,8 +244,6 @@ const AdminInterface = () => {
           {isEditing ? "Save Changes" : "Confirm Booking"}
         </button>
       </form>
-      
-
       {/* <ul>
         {Object.entries(tablesBookedByCustomer).booking(([customer, numTables]) => (
           <li key={customer}>
@@ -349,7 +276,7 @@ const AdminInterface = () => {
           ))}
         </select>
       </div>
-      <div style={{marginButtom: 0 }}>
+      <div style={{ marginButtom: 0 }}>
         <Input
           label="Search Bookings"
           type="text"
@@ -378,7 +305,6 @@ const AdminInterface = () => {
       {Object.keys(guestCount).map((key) => (
         <div key={key}>{`${key}: ${guestCount[key]}`}</div>
       ))}
-     
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {searchFilteredBookings.map((booking, index) => (
           <li
@@ -419,4 +345,3 @@ const AdminInterface = () => {
 };
 
 export default AdminInterface;
-
