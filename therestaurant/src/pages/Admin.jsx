@@ -18,7 +18,6 @@ export const Admin = () => {
                 <Routes>
                     <Route path="/create-restaurant" element={<CreateRestaurant />} />
                 </Routes>
-                <button onClick={"/login"}>Log out</button>
             </main>
         </div>
     );
