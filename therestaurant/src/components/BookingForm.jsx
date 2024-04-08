@@ -1,61 +1,60 @@
-import React, { useState } from 'react';
-import '../styles/booking-form.scss'
+import { useEffect, useState } from "react";
+import { useValidateTimeslots } from "../hooks/useValidateTimeslots";
 
-export const BookingForm = ({onFormSubmit}) => {
+import "../styles/booking-form.scss";
+
+export const BookingForm = ({ onFormSubmit, bookings }) => {
     const [bookingForm, setBookingForm] = useState({
-        numberOfGuests: '',
-        name: '',
-        date: '',
-        time: '',
-        restaurantId: ''
+        numberOfGuests: 1,
+        name: "",
+        date: "",
+        time: 1,
+        restaurantId: 1,
     });
-    
-    const [errorMessage, setErrorMessage] = useState('');
+
+    const { s1Available, s2Available } = useValidateTimeslots(
+        bookingForm.date,
+        bookings
+    );
+
+    useEffect(() => {
+        setBookingForm((prevBookingForm) => ({
+            ...prevBookingForm,
+            time: s1Available ? 1 : s2Available ? 2 : 0,
+        }));
+    }, [bookingForm.date, s1Available, s2Available]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setBookingForm({
             ...bookingForm,
-            [name]: value
+            [name]: value,
         });
     };
 
     const handleTimeButtonClick = (time) => {
         setBookingForm({
             ...bookingForm,
-            time: time // setting a time, type:time (converted to number in the contract)
+            time: time,
         });
-        console.log(time);//checking the time returns to the console correctly 
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // validate imputs
-        if (!bookingForm.numberOfGuests || !bookingForm.name || !bookingForm.date || !bookingForm.time || !bookingForm.restaurantId) {
-            setErrorMessage('Please fill in all fields.');
-            return;
-        }
-    
-
-        console.log('Form submitted:', bookingForm);
-        //pass the component
         onFormSubmit(bookingForm);
-        // reeset
         setBookingForm({
-            numberOfGuests: '',
-            name: '',
-            date: '',
-            time: '',
-            restaurantId: ''
+            numberOfGuests: "",
+            name: "",
+            date: "",
+            time: "",
+            restaurantId: "",
         });
-        setErrorMessage('');
     };
 
     return (
         <div>
             <h2>New Booking</h2>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            <form className = "booking-form" onSubmit={handleSubmit}>
+            <form className="booking-form" onSubmit={handleSubmit}>
                 <label>
                     Number of Guests:
                     <input
@@ -63,6 +62,9 @@ export const BookingForm = ({onFormSubmit}) => {
                         name="numberOfGuests"
                         value={bookingForm.numberOfGuests}
                         onChange={handleInputChange}
+                        min="1"
+                        max="6"
+                        required
                     />
                 </label>
                 <br />
@@ -73,6 +75,7 @@ export const BookingForm = ({onFormSubmit}) => {
                         name="name"
                         value={bookingForm.name}
                         onChange={handleInputChange}
+                        required
                     />
                 </label>
                 <br />
@@ -83,27 +86,36 @@ export const BookingForm = ({onFormSubmit}) => {
                         name="date"
                         value={bookingForm.date}
                         onChange={handleInputChange}
+                        required
                     />
                 </label>
                 <br />
-                <label>
-                    Restaurant ID:
-                    <input
-                        type="text"
-                        name="restaurantId"
-                        value={bookingForm.restaurantId}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <br/>
-                <button type="button" className={bookingForm.time === '18:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('18')}>
-                    18:00 
+                <button
+                    type="button"
+                    style={{
+                        background: !s1Available && "#ddd",
+                        cursor: !s1Available && "not-allowed",
+                    }}
+                    className={bookingForm.time === 1 ? "selected" : ""}
+                    onClick={() => handleTimeButtonClick(1)}
+                    disabled={!s1Available}
+                >
+                    {s1Available ? "18:00" : "Fully Booked"}
                 </button>
-                <button type="button" className={bookingForm.time === '21:00' ? 'selected' : ''} onClick={() => handleTimeButtonClick('21')}>
-                    21:00 
+                <button
+                    type="button"
+                    style={{
+                        background: !s2Available && "#ddd",
+                        cursor: !s2Available && "not-allowed",
+                    }}
+                    className={bookingForm.time === 2 ? "selected" : ""}
+                    onClick={() => handleTimeButtonClick(2)}
+                    disabled={!s2Available}
+                >
+                    {s2Available ? "21:00" : "Fully Booked"}
                 </button>
                 <br />
-                <button type="submit">Submit</button>
+                <button type="submit">Book</button>
             </form>
         </div>
     );

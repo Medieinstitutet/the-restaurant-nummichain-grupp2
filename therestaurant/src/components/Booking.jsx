@@ -1,50 +1,29 @@
-import { useContracts } from "../hooks/useContract"
-import { useEffect, useState } from "react"
-import {ethers} from 'ethers'
-import { BookingForm } from "./BookingForm"
-import '../styles/booking-form.scss'
-import { useManageBookings } from "../hooks/useManageBooking"
-import { requestAccess } from "../hooks/requestAccount"
+import { useContracts } from "../hooks/useContract";
+import { BookingForm } from "./BookingForm";
+import { useManageBookings } from "../hooks/useManageBooking";
+import { useBookings } from "../hooks/useBookings";
+import { BookingStatus } from "../components/BookingStatus";
+import "../styles/booking-form.scss";
 
 export const BookingComponent = () => {
-    const [readContract, writeContract] = useContracts()
-    const {createBooking} = useManageBookings(writeContract)
-    const [booking, setBooking] = useState('')
-    const [bookingDetails, setBookingDetails] = useState([]) 
-  
-useEffect(() => {
+    const [readContract, writeContract] = useContracts();
+    const { createBooking } = useManageBookings(writeContract);
+    const bookings = useBookings(readContract);
 
-   requestAccess()
-},[] )
+    const handleFormSubmit = (bookingData) => {
+        createBooking(
+            bookingData.numberOfGuests,
+            bookingData.name,
+            bookingData.date,
+            bookingData.time,
+            1
+        );
+    };
 
-const handleFormSubmit = (bookingData) => {
-    createBooking(
-        bookingData.numberOfGuests,
-        bookingData.name,
-        bookingData.date,
-        bookingData.time,
-        bookingData.restaurantId
-    );
-    setBooking('booking created successfully ')
-    
-}
-
-    return(
+    return (
         <>
-        <div>
-            {bookingDetails.map((booking, index) => (
-                    <div key={index}>
-                        <p>Booking ID: {Number(booking.id)}</p>
-                        <p>Number of Guests: {booking.numberOfGuests}</p>
-                        <p>Name: {booking.name}</p>
-                        <p>Date: {booking.date.toString()}</p>
-                        <p>Time: {booking.time.toString()}</p>
-                        <p>Restaurant ID: {Number(booking.restaurantId)}</p>
-                    </div>
-                ))}
-            </div>
-
-        <BookingForm onFormSubmit={handleFormSubmit}/>
+            <BookingStatus readContract={readContract} timeout={10000} />
+            <BookingForm onFormSubmit={handleFormSubmit} bookings={bookings} />
         </>
-    )
-}
+    );
+};
