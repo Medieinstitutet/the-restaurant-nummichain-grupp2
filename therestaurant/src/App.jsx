@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Router";
 
+
 if (window.ethereum) {
     window.provider = new ethers.BrowserProvider(window.ethereum);
 } else {

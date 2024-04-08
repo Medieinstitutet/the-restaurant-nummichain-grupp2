@@ -1,23 +1,29 @@
+import { useContracts } from "../hooks/useContract";
+import { BookingForm } from "./BookingForm";
+import { useManageBookings } from "../hooks/useManageBooking";
+import { useBookings } from "../hooks/useBookings";
+import { BookingStatus } from "../components/BookingStatus";
+import "../styles/booking-form.scss";
 
-import { useEffect } from "react"
-import {ethers} from 'ethers'
+export const BookingComponent = () => {
+    const [readContract, writeContract] = useContracts();
+    const { createBooking } = useManageBookings(writeContract);
+    const bookings = useBookings(readContract);
 
-export const BookingComponent = () => { 
+    const handleFormSubmit = (bookingData) => {
+        createBooking(
+            bookingData.numberOfGuests,
+            bookingData.name,
+            bookingData.date,
+            bookingData.time,
+            1
+        );
+    };
 
-
-useEffect(() => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    console.log(provider);
-    const signer = provider.getSigner()
-    console.log(signer);
-}, [])
-
-    
-
-    return(
+    return (
         <>
-       <button>18:00</button>
-       <button>21:00</button>
+            <BookingStatus readContract={readContract} timeout={10000} />
+            <BookingForm onFormSubmit={handleFormSubmit} bookings={bookings} />
         </>
-    )
-}
+    );
+};
