@@ -1,6 +1,4 @@
 import Input from "../../UI/Input";
-// import {isEmail, isNotEmpty} from "../../utils/validation"
-
 export default function Login() {
     
     const submitHandeler=(event)=>{
@@ -20,11 +18,11 @@ export default function Login() {
   
         <div className="control-row">
           <div className="control no-margin">
-            <Input label="email" id="email" type="email" name="email" />
+            <Input label="email" id="email" type="email" name="email" required />
           </div>
   
           <div className="control no-margin">
-            <Input label="password" id="password" type="password" name="password"/>
+            <Input label="password" id="password" type="password" name="password" required/>
           </div>
         </div>
   
