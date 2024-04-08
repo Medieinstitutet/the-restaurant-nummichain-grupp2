@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
-import { reverseTimeSlotMapping } from '../utils/timeSlot';
+// Author; Elena Lehto Fredenbrink
 
-export const useGuestAndTableCount = (bookings, selectedDate, selectedTimeSlot) => {
+import { useState, useEffect } from "react";
+import { reverseTimeSlotMapping } from "../utils/timeSlot";
+
+export const useGuestAndTableCount = (
+  bookings,
+  selectedDate,
+  selectedTimeSlot,
+) => {
   const [guestCount, setGuestCount] = useState({});
   const [tablesBookedByCustomer, setTablesBookedByCustomer] = useState({});
   const [availableTables, setAvailableTables] = useState(15);
@@ -21,14 +27,17 @@ export const useGuestAndTableCount = (bookings, selectedDate, selectedTimeSlot) 
           guestCount[key] = (guestCount[key] || 0) + numberOfGuestsParsed;
 
           const numberOfTables = Math.ceil(numberOfGuestsParsed / 6);
-          tablesBookedByCustomer[booking.name] = (tablesBookedByCustomer[booking.name] || 0) + numberOfTables;
+          tablesBookedByCustomer[booking.name] =
+            (tablesBookedByCustomer[booking.name] || 0) + numberOfTables;
         }
       });
-
       setGuestCount(guestCount);
       setTablesBookedByCustomer(tablesBookedByCustomer);
 
-      const totalBookedTables = Object.values(tablesBookedByCustomer).reduce((acc, cur) => acc + cur, 0);
+      const totalBookedTables = Object.values(tablesBookedByCustomer).reduce(
+        (acc, cur) => acc + cur,
+        0,
+      );
       setAvailableTables(Math.max(15 - totalBookedTables, 0));
     };
 

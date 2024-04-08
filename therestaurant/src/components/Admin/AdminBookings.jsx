@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
-// import useGuestAndTableCount from '../../hooks/useGuestAndTableCount';
+import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
 
 import Input from "../../UI/Input";
 
@@ -19,49 +19,23 @@ const AdminInterface = () => {
   const [time, setTime] = useState("18:00 - 21:00");
   const [isEditing, setIsEditing] = useState(false);
   const [editingBookingId, setEditingBookingId] = useState(null);
+
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-  const [guestCount, setGuestCount] = useState({});
+
+  const { guestCount, tablesBookedByCustomer, availableTables } =
+    useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
   const [searchBookings, setSearchBookings] = useState("");
   const [filteredBookings, setFilteredBookings] = useState([]);
-  // const filteredBookings = filterBookings(bookings, selectedDate, selectedTimeSlot);
-  // const [availabilityMessagebleSeats, setAvailableSeats] = useState(90);
+
+  const today = new Date().toISOString().split("T")[0];
   const [tableAvailabilityMessage, setTableAvailabilityMessage] = useState("");
 
-  const [availableTables, setAvailableTables] = useState(15);
-  const [tablesBookedByCustomer, setTablesBookedByCustomer] = useState({});
-  // const [customerBookings, setCustomerBookings] = useState({});
-  const today = new Date().toISOString().split("T")[0];
   const restaurantID = 1;
 
-  const countGuestsByDayAndTimeSlot = (bookings) => {
-    const guestCount = {};
-    const tablesBookedByCustomer = {};
-
-    bookings.forEach((booking) => {
-      if (
-        booking.date === selectedDate &&
-        reverseTimeSlotMapping(booking.time) === selectedTimeSlot
-      ) {
-        const key = `${booking.date}-${reverseTimeSlotMapping(booking.time)}`;
-        const numberOfGuestsParsed = parseInt(booking.numberOfGuests, 10);
-        guestCount[key] = (guestCount[key] || 0) + numberOfGuestsParsed;
-
-        // Calculate the number of tables booked by each customer
-        const numberOfTables = Math.ceil(numberOfGuestsParsed / 6);
-        if (!tablesBookedByCustomer[booking.name]) {
-          tablesBookedByCustomer[booking.name] = 0;
-        }
-        tablesBookedByCustomer[booking.name] += numberOfTables;
-      }
-    });
-    return { guestCount, tablesBookedByCustomer };
-  };
   useEffect(() => {
     if (selectedDate && selectedTimeSlot) {
       console.log("Initial bookings:", bookings);
-      const { guestCount, tablesBookedByCustomer } =
-        countGuestsByDayAndTimeSlot(bookings, selectedDate, selectedTimeSlot);
 
       console.log("Guest Count:", guestCount);
       console.log("Tables Booked by Customer:", tablesBookedByCustomer);
@@ -72,18 +46,11 @@ const AdminInterface = () => {
       );
       console.log("Total Booked Tables:", totalBookedTables);
 
-      setGuestCount(guestCount);
-      setAvailableTables(Math.max(15 - totalBookedTables, 0));
-      setTablesBookedByCustomer(tablesBookedByCustomer);
       setTableAvailabilityMessage("");
     } else {
       setTableAvailabilityMessage(
         "Please select a date and time to check table availability.",
       );
-
-      setGuestCount({});
-      setTablesBookedByCustomer({});
-      setAvailableTables(15);
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
@@ -109,52 +76,62 @@ const AdminInterface = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const numberOfGuestsParsed = parseInt(guests, 10);
-      const requestedTables = Math.ceil(numberOfGuestsParsed / 6);
+      try {
+        const numberOfGuestsParsed = parseInt(guests, 10);
+        const requestedTables = Math.ceil(numberOfGuestsParsed / 6);
+        const timeSlotNumber = timeSlotMapping[time];
 
-      const timeSlotNumber = timeSlotMapping[time];
-      console.log(typeof timeSlotNumber);
+        console.log("Requested Tables:", requestedTables);
+        console.log("Available Tables:", availableTables);
+      
+        const currentAvailableTables = availableTables;
 
-      if (availableTables <= 0) {
-        alert(
-          "Sorry, the restaurant is fully booked for the selected date and time slot.",
-        );
-        return;
+        if (currentAvailableTables <= 0) {
+          alert(
+            "Sorry, the restaurant is fully booked for the selected date and time slot.",
+          );
+          console.log(currentAvailableTables);
+          return;
+        }
+
+        console.log(`Available Tables (before alert):`, availableTables);
+        if (availableTables < requestedTables) {
+          alert(
+            `Sorry, We do not have enough available tables for number of guests that you have rovided. We have ${availableTables}tables left for the resquested date and time slot`,
+          );
+          return;
+        }
+
+        if (isEditing && editingBookingId) {
+          await editBooking(
+            editingBookingId,
+            numberOfGuestsParsed,
+            name,
+            date,
+            timeSlotNumber,
+          );
+        } else {
+          await createBooking(
+            numberOfGuestsParsed,
+            name,
+            date,
+            timeSlotNumber,
+            restaurantID,
+          );
+          console.log(typeof timeSlotNumber);
+        }
+
+        setGuests("1");
+        setName("");
+        setDate("");
+        setTime("18:00 - 21:00");
+        setIsEditing(false);
+        setEditingBookingId(null);
+      } catch (error) {
+        console.error("Error when submitting the booking:", error);
       }
-      if (availableTables < requestedTables) {
-        alert(
-          `Sorry, there are not enough tables available for the number of guests. We have ${availableTables}tables left for the resquested date and time slot`,
-        );
-        return;
-      }
-
-      if (isEditing && editingBookingId) {
-        await editBooking(
-          editingBookingId,
-          numberOfGuestsParsed,
-          name,
-          date,
-          timeSlotNumber,
-        );
-        console.log(typeof timeSlotNumber);
-      } else {
-        await createBooking(
-          numberOfGuestsParsed,
-          name,
-          date,
-          timeSlotNumber,
-          restaurantID,
-        );
-        console.log(typeof timeSlotNumber);
-      }
-
-      setGuests("1");
-      setName("");
-      setDate("");
-      setTime("18:00 - 21:00");
-      setIsEditing(false);
-      setEditingBookingId(null);
     },
+
     [
       createBooking,
       editBooking,
@@ -164,6 +141,7 @@ const AdminInterface = () => {
       time,
       isEditing,
       editingBookingId,
+      availableTables,
     ],
   );
 
