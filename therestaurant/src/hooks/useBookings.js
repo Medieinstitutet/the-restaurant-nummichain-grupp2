@@ -27,5 +27,4 @@ export const useBookings = (readContract) => {
     }, [readContract]);
 
     return bookings;
-
 };

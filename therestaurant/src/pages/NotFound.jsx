@@ -1,7 +1,9 @@
+import '../styles/notfound.scss';
+
 export const NotFound = () => {
     return (
-        <>
-        <h1>Sorry, page not found.</h1>
-        </>
+        <div className="notfound-container">
+          <h1 className='notfoundtitle'>Sorry, page not found</h1>
+      </div>
     );
   }

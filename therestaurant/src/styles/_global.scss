@@ -144,3 +144,11 @@ textarea:not([rows]) {
 :target {
     scroll-margin-block: 5ex;
 }
+
+.notice {
+    color: #b30083;
+    border-radius: 5px;
+    padding: 5px 5px 5px 0px;
+    font-size: $m;
+    font-weight: 600;
+}
