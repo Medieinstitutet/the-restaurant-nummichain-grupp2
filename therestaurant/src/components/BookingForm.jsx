@@ -82,7 +82,6 @@ export const BookingForm = ({ onFormSubmit, bookings }) => {
                         required
                     />
                 </label>
-                <br />
                 <label>
                     Name:
                     <input
@@ -93,7 +92,6 @@ export const BookingForm = ({ onFormSubmit, bookings }) => {
                         required
                     />
                 </label>
-                <br />
                 <label>
                     Date:
                     <input
@@ -105,7 +103,6 @@ export const BookingForm = ({ onFormSubmit, bookings }) => {
                         required
                     />
                 </label>
-                <br />
                 <button
                     type="button"
                     style={{
