@@ -3,6 +3,7 @@ import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
 import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
+import useBookingFilter from "../../hooks/useBookingFilter";
 
 import Input from "../../UI/Input";
 
@@ -26,7 +27,7 @@ const AdminInterface = () => {
   const { guestCount, tablesBookedByCustomer, availableTables } =
     useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
   const [searchBookings, setSearchBookings] = useState("");
-  const [filteredBookings, setFilteredBookings] = useState([]);
+  // const [filteredBookings, setFilteredBookings] = useState([]);
 
   const today = new Date().toISOString().split("T")[0];
   const [tableAvailabilityMessage, setTableAvailabilityMessage] = useState("");
@@ -54,24 +55,25 @@ const AdminInterface = () => {
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
-  useEffect(() => {
-    console.log("Tables Booked By Customer:", tablesBookedByCustomer);
-    console.log("Available Tables:", availableTables);
-  }, [tablesBookedByCustomer, availableTables]);
+  // useEffect(() => {
+  //   console.log("Tables Booked By Customer:", tablesBookedByCustomer);
+  //   console.log("Available Tables:", availableTables);
+  // }, [tablesBookedByCustomer, availableTables]);
 
-  const filterBookingsByDateAndTimeSlot = useCallback(() => {
-    return bookings.filter(
-      (booking) =>
-        (!selectedDate || booking.date === selectedDate) &&
-        (!selectedTimeSlot ||
-          booking.time === timeSlotMapping[selectedTimeSlot]),
-    );
-  }, [bookings, selectedDate, selectedTimeSlot]);
+  const filteredBookingsData = useBookingFilter(bookings, selectedDate, selectedTimeSlot, searchBookings, timeSlotMapping);
+  // const filterBookingsByDateAndTimeSlot = useCallback(() => {
+  //   return bookings.filter(
+  //     (booking) =>
+  //       (!selectedDate || booking.date === selectedDate) &&
+  //       (!selectedTimeSlot ||
+  //         booking.time === timeSlotMapping[selectedTimeSlot]),
+  //   );
+  // }, [bookings, selectedDate, selectedTimeSlot]);
 
-  useEffect(() => {
-    const filteredBookings = filterBookingsByDateAndTimeSlot();
-    setFilteredBookings(filteredBookings);
-  }, [filterBookingsByDateAndTimeSlot]);
+  // useEffect(() => {
+  //   const filteredBookings = filterBookingsByDateAndTimeSlot();
+  //   setFilteredBookings(filteredBookings);
+  // }, [filterBookingsByDateAndTimeSlot]);
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -164,7 +166,7 @@ const AdminInterface = () => {
   const handleChangeInSearch = (e) => {
     setSearchBookings(e.target.value);
   };
-  const searchFilteredBookings = filteredBookings.filter((booking) =>
+  const searchFilteredBookings = filteredBookingsData.filter((booking) =>
     booking.name.toLowerCase().includes(searchBookings.toLowerCase()),
   );
   const resetFilters = () => {
