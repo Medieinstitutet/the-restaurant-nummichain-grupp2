@@ -68,7 +68,7 @@ export const BookingForm = ({ onFormSubmit, bookings }) => {
 
     return (
         <div>
-            <h2>New Booking</h2>
+            <h2>Book your virtual seat</h2>
             <form className="booking-form" onSubmit={handleSubmit}>
                 <label>
                     Number of Guests:
