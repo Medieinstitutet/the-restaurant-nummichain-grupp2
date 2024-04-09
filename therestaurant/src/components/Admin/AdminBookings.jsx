@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
 import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
 import useBookingFilter from "../../hooks/useBookingFilter";
-
+import { useBookingSubmission } from "../../hooks/useBookingHandleSubmition";
 import Input from "../../UI/Input";
 
 import { timeSlotMapping, reverseTimeSlotMapping } from "../../utils/timeSlot";
@@ -60,7 +60,13 @@ const AdminInterface = () => {
   //   console.log("Available Tables:", availableTables);
   // }, [tablesBookedByCustomer, availableTables]);
 
-  const filteredBookingsData = useBookingFilter(bookings, selectedDate, selectedTimeSlot, searchBookings, timeSlotMapping);
+  const filteredBookingsData = useBookingFilter(
+    bookings,
+    selectedDate,
+    selectedTimeSlot,
+    searchBookings,
+    timeSlotMapping,
+  );
   // const filterBookingsByDateAndTimeSlot = useCallback(() => {
   //   return bookings.filter(
   //     (booking) =>
@@ -75,77 +81,30 @@ const AdminInterface = () => {
   //   setFilteredBookings(filteredBookings);
   // }, [filterBookingsByDateAndTimeSlot]);
 
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      try {
-        const numberOfGuestsParsed = parseInt(guests, 10);
-        const requestedTables = Math.ceil(numberOfGuestsParsed / 6);
-        const timeSlotNumber = timeSlotMapping[time];
+  const handleSubmitWrapper = useBookingSubmission({
+    createBooking,
+    editBooking,
+    availableTables,
+    setIsEditing,
+    setGuests,
+    setName,
+    setDate,
+    setTime,
+    setEditingBookingId,
+    restaurantID,
+  });
 
-        console.log("Requested Tables:", requestedTables);
-        console.log("Available Tables:", availableTables);
-      
-        const currentAvailableTables = availableTables;
-
-        if (currentAvailableTables <= 0) {
-          alert(
-            "Sorry, the restaurant is fully booked for the selected date and time slot.",
-          );
-          console.log(currentAvailableTables);
-          return;
-        }
-
-        console.log(`Available Tables (before alert):`, availableTables);
-        if (availableTables < requestedTables) {
-          alert(
-            `Sorry, We do not have enough available tables for number of guests that you have rovided. We have ${availableTables}tables left for the resquested date and time slot`,
-          );
-          return;
-        }
-
-        if (isEditing && editingBookingId) {
-          await editBooking(
-            editingBookingId,
-            numberOfGuestsParsed,
-            name,
-            date,
-            timeSlotNumber,
-          );
-        } else {
-          await createBooking(
-            numberOfGuestsParsed,
-            name,
-            date,
-            timeSlotNumber,
-            restaurantID,
-          );
-          console.log(typeof timeSlotNumber);
-        }
-
-        setGuests("1");
-        setName("");
-        setDate("");
-        setTime("18:00 - 21:00");
-        setIsEditing(false);
-        setEditingBookingId(null);
-      } catch (error) {
-        console.error("Error when submitting the booking:", error);
-      }
-    },
-
-    [
-      createBooking,
-      editBooking,
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSubmitWrapper(e, {
       guests,
       name,
       date,
       time,
       isEditing,
       editingBookingId,
-      availableTables,
-    ],
-  );
+    });
+  };
 
   const startEditBooking = (bookingId) => {
     const booking = bookings.find((b) => b.id === bookingId);
