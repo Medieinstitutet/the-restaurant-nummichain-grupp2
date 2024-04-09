@@ -1,13 +1,9 @@
 import './bookingListA.scss';
 import{reverseTimeSlotMapping} from'../../utils/timeSlot'
 
-const BookingsListA = ({ bookings, startEditBooking, handleRemoveBooking, guestCount }) => {
-    console.log("Bookings Data:", bookings);
-    console.log("Guest Count Data:", guestCount);
-    console.log(`Booking type of:${typeof(bookings)}`)
-    console.log(`GuestCount:${typeof(guestCount)}`)
-    console.log(bookings, guestCount )
-   
+const BookingsListA = ({ bookings, startEditBooking, handleRemoveBooking,  }) => {
+    const numberOfGuestsParsed = parseInt(bookings.numberOfGuests, 10);
+    const bookedTables = String(Math.ceil(numberOfGuestsParsed / 6));
     
     return (
       <ul className="bookings-list">
@@ -16,7 +12,8 @@ const BookingsListA = ({ bookings, startEditBooking, handleRemoveBooking, guestC
             <div className="booking-details">
               <div>Customer Name: {booking.name}</div>
               <div>Date: {booking.date}</div>
-              <div>Guests: {booking.numberOfGuests}</div>
+              <div>Guests: {String(booking.numberOfGuests)}</div>
+              <div>Booked Tables:{String(bookedTables)}</div>
               <div>Time Slot: {reverseTimeSlotMapping(booking.time)}</div>
             </div>
             <div className="booking-actions">

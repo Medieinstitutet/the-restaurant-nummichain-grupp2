@@ -39,6 +39,8 @@ const AdminInterface = () => {
     isEditing,
     editingBookingId,
     startEditBooking,
+    stopEditing,
+    hasBookingChanged,
     setIsEditing,
     setEditingBookingId,
   } = useBookingEditor({
@@ -58,6 +60,7 @@ const AdminInterface = () => {
     setTime,
     setIsEditing,
     setEditingBookingId,
+    hasBookingChanged,
     restaurantID,
   });
   const handleSubmit = async (event) => {
@@ -113,6 +116,17 @@ const AdminInterface = () => {
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
+  // const resetForm = () => {
+  //   setGuests("1"); // Reset to default or initial guest count
+  //   setName(""); // Clear the name
+  //   setDate(""); // Clear the date
+  //   setTime("18:00 - 21:00"); // Reset to a default time slot or clear this as well
+  //   // Additionally, if you're in the editing mode and want to exit it upon reset:
+  //   if (isEditing) {
+  //     setIsEditing(false);
+  //     setEditingBookingId(null); // Assuming null is the default or initial state
+  //   }
+  // };
   const filteredBookingsData = useBookingFilter(
     bookings,
     selectedDate,
@@ -172,6 +186,16 @@ const AdminInterface = () => {
         <button type="submit">
           {isEditing ? "Save Changes" : "Confirm Booking"}
         </button>
+        <button
+  type="button"
+  onClick={() => {
+    if (window.confirm("Are you sure you want to clear the form?")) {
+      stopEditing();
+    }
+  }}
+>
+  Clear
+</button>
       </form>
       {/* <ul>
         {Object.entries(tablesBookedByCustomer).booking(([customer, numTables]) => (
