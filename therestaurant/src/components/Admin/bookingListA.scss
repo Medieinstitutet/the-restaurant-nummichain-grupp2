@@ -1,0 +1,65 @@
+@import '../../styles/global';
+
+.bookings-list {
+  list-style-type: none;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 200px; /* Set the width of the list */
+  overflow-y: auto; /* Add vertical scroll if content exceeds height */
+  background-color: #ffffff; /* Set background color */
+  z-index: 999; /* Ensure the list is above other content */
+
+  @include medium-to-large-screen {
+    /* For medium to large screens, adjust the width as needed */
+    width: 300px;
+  }
+}
+
+.booking-item {
+  padding: 10px 0;
+  animation: fadeIn 0.5s ease-out;
+  border-bottom: 1px solid #eaeaea;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &:hover {
+    background-color: #fdf2c1;
+    border-bottom-color: #d0af72;
+  }
+}
+
+.booking-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+
+  button {
+    transition: background-color 0.3s, transform 0.2s, color 0.3s;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+
+    background-color: #f9ae35;
+    color: #ffffff;
+
+    &:hover {
+      transform: scale(1.05);
+      background-color: #f1751c;
+      color: #ffffff;
+    }
+  }
+
+  .cancel-button {
+    background-color: #ff6b6b;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #e63939;
+    }
+  }
+}

@@ -1,15 +1,17 @@
-import { useState, useEffect, useRef} from "react";
+import { useState, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
 import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
 import useBookingFilter from "../../hooks/useBookingFilter";
 import { useBookingSubmission } from "../../hooks/useBookingHandleSubmition";
-import useBookingEditor from '../../hooks/useBookingEditor';
+import useBookingEditor from "../../hooks/useBookingEditor";
+
+import BookingsListA from "./BookingListA";
 
 import Input from "../../UI/Input";
 
-import { timeSlotMapping, reverseTimeSlotMapping } from "../../utils/timeSlot";
+import { timeSlotMapping } from "../../utils/timeSlot";
 
 const AdminInterface = () => {
   const [readContract, writeContract] = useContracts();
@@ -20,7 +22,7 @@ const AdminInterface = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("18:00 - 21:00");
-  const formRef = useRef(null);
+
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
@@ -32,46 +34,49 @@ const AdminInterface = () => {
 
   const { guestCount, tablesBookedByCustomer, availableTables } =
     useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
- 
-    const { isEditing, editingBookingId, startEditBooking, setIsEditing, setEditingBookingId } = useBookingEditor({
-      setGuests,
-      setName,
-      setDate,
-      setTime,
-    });
- 
- 
-    const submitBooking =  useBookingSubmission({
-      createBooking,
-      editBooking,
-      availableTables,
-      setGuests,
-      setName,
-      setDate,
-      setTime,
-      setIsEditing,
-      setEditingBookingId,
-      restaurantID,
-    });
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      try {
-        // Call submitBooking with form data, handling both create and edit operations
-        await submitBooking(event, {
-          guests,
-          name,
-          date,
-          time,
-          isEditing,
-          editingBookingId,
-        });
-      } catch (error) {
-        // Handle errors, e.g., display error message to user
-        console.error("Failed to process booking:", error);
-      }
-    };
 
+  const {
+    isEditing,
+    editingBookingId,
+    startEditBooking,
+    setIsEditing,
+    setEditingBookingId,
+  } = useBookingEditor({
+    setGuests,
+    setName,
+    setDate,
+    setTime,
+  });
 
+  const submitBooking = useBookingSubmission({
+    createBooking,
+    editBooking,
+    availableTables,
+    setGuests,
+    setName,
+    setDate,
+    setTime,
+    setIsEditing,
+    setEditingBookingId,
+    restaurantID,
+  });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // Call submitBooking with form data, handling both create and edit operations
+      await submitBooking(event, {
+        guests,
+        name,
+        date,
+        time,
+        isEditing,
+        editingBookingId,
+      });
+    } catch (error) {
+      // Handle errors, e.g., display error message to user
+      console.error("Failed to process booking:", error);
+    }
+  };
 
   const handleRemoveBooking = async (id) => {
     await removeBooking(id);
@@ -86,8 +91,6 @@ const AdminInterface = () => {
     setSelectedTimeSlot("");
     setSearchBookings("");
   };
-
-
 
   useEffect(() => {
     if (selectedDate && selectedTimeSlot) {
@@ -110,7 +113,6 @@ const AdminInterface = () => {
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
- 
   const filteredBookingsData = useBookingFilter(
     bookings,
     selectedDate,
@@ -122,11 +124,10 @@ const AdminInterface = () => {
     booking.name.toLowerCase().includes(searchBookings.toLowerCase()),
   );
 
- 
   return (
     <div>
-       <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
+      <form onSubmit={handleSubmit}>
         <Input
           label="Date of Arrival"
           type="date"
@@ -245,26 +246,13 @@ const AdminInterface = () => {
             }}
           >
             <div>
-              <span>{`CustomerName: ${booking.name}`}</span>
-              <div style={{ marginTop: "0.5rem" }}>
-                <span> {`Date: ${booking.date}`}</span>
-              </div>
-              <span>{`Time: ${reverseTimeSlotMapping(booking.time)}`}</span>
-              <div style={{ marginTop: "0.5rem" }}>
-                <span>{`Guests: ${booking.numberOfGuests}`}</span>
-              </div>
+              <BookingsListA
+                bookings={searchFilteredBookings}
+                startEditBooking={startEditBooking}
+                handleRemoveBooking={handleRemoveBooking}
+                guestCount={guestCount}
+              />
             </div>
-            <div style={{ marginTop: "0.5rem", color: "#888" }}>
-              <span>
-                Tables Booked By Customer:{" "}
-                {tablesBookedByCustomer[booking.name] || 0}
-              </span>
-            </div>
-
-            <button onClick={() => startEditBooking(booking.id,bookings)}>Edit</button>
-            <button onClick={() => handleRemoveBooking(booking.id)}>
-              Cancel Booking
-            </button>
           </li>
         ))}
       </ul>
