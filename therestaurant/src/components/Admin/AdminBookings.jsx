@@ -116,17 +116,6 @@ const AdminInterface = () => {
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
-  // const resetForm = () => {
-  //   setGuests("1"); // Reset to default or initial guest count
-  //   setName(""); // Clear the name
-  //   setDate(""); // Clear the date
-  //   setTime("18:00 - 21:00"); // Reset to a default time slot or clear this as well
-  //   // Additionally, if you're in the editing mode and want to exit it upon reset:
-  //   if (isEditing) {
-  //     setIsEditing(false);
-  //     setEditingBookingId(null); // Assuming null is the default or initial state
-  //   }
-  // };
   const filteredBookingsData = useBookingFilter(
     bookings,
     selectedDate,
@@ -171,7 +160,6 @@ const AdminInterface = () => {
           value={guests}
           onChange={(e) => setGuests(e.target.value)}
           min="1"
-          // max={availableSeats}
           step="1"
           required
         />
