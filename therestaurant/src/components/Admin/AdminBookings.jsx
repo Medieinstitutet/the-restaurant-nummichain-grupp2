@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef} from "react";
 import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
 import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
 import useBookingFilter from "../../hooks/useBookingFilter";
 import { useBookingSubmission } from "../../hooks/useBookingHandleSubmition";
+import useBookingEditor from '../../hooks/useBookingEditor';
+
 import Input from "../../UI/Input";
 
 import { timeSlotMapping, reverseTimeSlotMapping } from "../../utils/timeSlot";
@@ -18,21 +20,74 @@ const AdminInterface = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("18:00 - 21:00");
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingBookingId, setEditingBookingId] = useState(null);
+  const formRef = useRef(null);
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-
-  const { guestCount, tablesBookedByCustomer, availableTables } =
-    useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
   const [searchBookings, setSearchBookings] = useState("");
-  // const [filteredBookings, setFilteredBookings] = useState([]);
 
   const today = new Date().toISOString().split("T")[0];
   const [tableAvailabilityMessage, setTableAvailabilityMessage] = useState("");
-
   const restaurantID = 1;
+
+  const { guestCount, tablesBookedByCustomer, availableTables } =
+    useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
+ 
+    const { isEditing, editingBookingId, startEditBooking, setIsEditing, setEditingBookingId } = useBookingEditor({
+      setGuests,
+      setName,
+      setDate,
+      setTime,
+    });
+ 
+ 
+    const submitBooking =  useBookingSubmission({
+      createBooking,
+      editBooking,
+      availableTables,
+      setGuests,
+      setName,
+      setDate,
+      setTime,
+      setIsEditing,
+      setEditingBookingId,
+      restaurantID,
+    });
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      try {
+        // Call submitBooking with form data, handling both create and edit operations
+        await submitBooking(event, {
+          guests,
+          name,
+          date,
+          time,
+          isEditing,
+          editingBookingId,
+        });
+      } catch (error) {
+        // Handle errors, e.g., display error message to user
+        console.error("Failed to process booking:", error);
+      }
+    };
+
+
+
+  const handleRemoveBooking = async (id) => {
+    await removeBooking(id);
+  };
+
+  const handleChangeInSearch = (e) => {
+    setSearchBookings(e.target.value);
+  };
+
+  const resetFilters = () => {
+    setSelectedDate("");
+    setSelectedTimeSlot("");
+    setSearchBookings("");
+  };
+
+
 
   useEffect(() => {
     if (selectedDate && selectedTimeSlot) {
@@ -55,11 +110,7 @@ const AdminInterface = () => {
     }
   }, [bookings, selectedDate, selectedTimeSlot]);
 
-  // useEffect(() => {
-  //   console.log("Tables Booked By Customer:", tablesBookedByCustomer);
-  //   console.log("Available Tables:", availableTables);
-  // }, [tablesBookedByCustomer, availableTables]);
-
+ 
   const filteredBookingsData = useBookingFilter(
     bookings,
     selectedDate,
@@ -67,77 +118,15 @@ const AdminInterface = () => {
     searchBookings,
     timeSlotMapping,
   );
-  // const filterBookingsByDateAndTimeSlot = useCallback(() => {
-  //   return bookings.filter(
-  //     (booking) =>
-  //       (!selectedDate || booking.date === selectedDate) &&
-  //       (!selectedTimeSlot ||
-  //         booking.time === timeSlotMapping[selectedTimeSlot]),
-  //   );
-  // }, [bookings, selectedDate, selectedTimeSlot]);
-
-  // useEffect(() => {
-  //   const filteredBookings = filterBookingsByDateAndTimeSlot();
-  //   setFilteredBookings(filteredBookings);
-  // }, [filterBookingsByDateAndTimeSlot]);
-
-  const handleSubmitWrapper = useBookingSubmission({
-    createBooking,
-    editBooking,
-    availableTables,
-    setIsEditing,
-    setGuests,
-    setName,
-    setDate,
-    setTime,
-    setEditingBookingId,
-    restaurantID,
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSubmitWrapper(e, {
-      guests,
-      name,
-      date,
-      time,
-      isEditing,
-      editingBookingId,
-    });
-  };
-
-  const startEditBooking = (bookingId) => {
-    const booking = bookings.find((b) => b.id === bookingId);
-    if (booking) {
-      setGuests(String(booking.numberOfGuests));
-      setName(booking.name);
-      setDate(booking.date);
-      setTime(reverseTimeSlotMapping(booking.time));
-      setIsEditing(true);
-      setEditingBookingId(bookingId);
-    }
-  };
-
-  const handleRemoveBooking = async (id) => {
-    await removeBooking(id);
-  };
-
-  const handleChangeInSearch = (e) => {
-    setSearchBookings(e.target.value);
-  };
   const searchFilteredBookings = filteredBookingsData.filter((booking) =>
     booking.name.toLowerCase().includes(searchBookings.toLowerCase()),
   );
-  const resetFilters = () => {
-    setSelectedDate("");
-    setSelectedTimeSlot("");
-    setSearchBookings("");
-  };
 
+ 
   return (
     <div>
-      <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
-      <form onSubmit={handleSubmit}>
+       <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <Input
           label="Date of Arrival"
           type="date"
@@ -272,7 +261,7 @@ const AdminInterface = () => {
               </span>
             </div>
 
-            <button onClick={() => startEditBooking(booking.id)}>Edit</button>
+            <button onClick={() => startEditBooking(booking.id,bookings)}>Edit</button>
             <button onClick={() => handleRemoveBooking(booking.id)}>
               Cancel Booking
             </button>
