@@ -1,20 +1,23 @@
+@import '../styles/global.scss';
+
 .booking-form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 300px; /* Default width */
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 15px;
     background-color: #f9f9f9;
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+    }
 }
 
-.booking-form h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
-}
 
 .booking-form label {
     display: block;
@@ -46,11 +49,36 @@
 }
 
 .booking-form button.selected {
-    background-color: #b30083; //selected button CSS
+    background-color: #b30083; /* selected button CSS */
 }
 
 .booking-form .error-message {
     color: red;
     margin-bottom: 10px;
     text-align: center;
+}
+
+/* Apply mixins */
+@include small-screen {
+    .booking-form {
+        width: 200px; /* Adjust width for small screens */
+    }
+}
+
+@include medium-screen {
+    .booking-form {
+        width: 300px; /* Adjust width for medium screens */
+    }
+}
+
+@include large-screen {
+    .booking-form {
+        width: 500px; /* Adjust width for large screens */
+    }
+}
+
+@include medium-to-large-screen {
+    .booking-form {
+        width: 400px; /* Adjust width for medium to large screens */
+    }
 }

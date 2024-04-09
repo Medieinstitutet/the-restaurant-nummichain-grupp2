@@ -8,7 +8,9 @@ const RestaurantCreator = () => {
 
   const checkRestaurantExists = async () => {
     try {
-      const exists = (await readContract.restaurantCount()) > 0;
+      const exists = await readContract['restaurantCount']();
+      
+      console.log(exists);
       setRestaurantExists(exists);
     } catch (error) {
       console.error('Error checking restaurant existence:', error);
