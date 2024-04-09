@@ -1,0 +1,25 @@
+@use "./global.scss";
+
+.restaurant-creator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center vertically */
+    height: 50vh; /* Make the container full height */
+  }
+  
+  .restaurant-input-container {
+
+  }
+  
+  .restaurant-input {
+
+  }
+  
+  .restaurant-creator-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
