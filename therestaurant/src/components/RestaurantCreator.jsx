@@ -1,40 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useContracts } from '../hooks/useContract';
+import React, { useState } from 'react';
+import useRestaurantCreated from '../hooks/useRestaurantCreator';
 
 const RestaurantCreator = () => {
   const [restaurantName, setRestaurantName] = useState('');
-  const [restaurantExists, setRestaurantExists] = useState(false);
-  const [readContract, writeContract] = useContracts();
+  const { createRestaurant, restaurantExists } = useRestaurantCreated();
 
-  const checkRestaurantExists = async () => {
-    try {
-      const exists = (await readContract.restaurantCount()) > 0;
-      setRestaurantExists(exists);
-    } catch (error) {
-      console.error('Error checking restaurant existence:', error);
-    }
-  };
-
-  useEffect(() => {
-    checkRestaurantExists();
-  });
-
-  const createRestaurant = async () => {
-    if (!writeContract) return;
-
-    if (restaurantExists) {
-      alert('Restaurant already exists');
-      return;
-    }
-
-    try {
-      const tx = await writeContract.createRestaurant(restaurantName);
-      await tx.wait();
-      alert('Restaurant created successfully');
-      setRestaurantExists(true); 
-    } catch (error) {
-      console.error('Error creating restaurant:', error);
-    }
+  const handleCreateRestaurant = () => {
+    createRestaurant(restaurantName);
   };
 
   return (
@@ -46,7 +18,7 @@ const RestaurantCreator = () => {
         placeholder="Restaurant Name"
       />
       <button
-        onClick={createRestaurant}
+        onClick={handleCreateRestaurant}
         style={{
             background: restaurantExists ? "#ddd" : "",
             cursor: restaurantExists ? "not-allowed" : "pointer",
