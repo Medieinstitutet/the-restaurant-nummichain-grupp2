@@ -1,3 +1,4 @@
+import FormManagement from'./FormManagement'
 import { useState, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
 
@@ -129,8 +130,22 @@ const AdminInterface = () => {
 
   return (
     <div>
-      <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
-      <form onSubmit={handleSubmit}>
+   
+      <FormManagement
+  guests={guests}
+  setGuests={setGuests}
+  name={name}
+  setName={setName}
+  date={date}
+  setDate={setDate}
+  time={time}
+  setTime={setTime}
+  isEditing={isEditing}
+  handleSubmit={handleSubmit}
+  stopEditing={stopEditing}
+  today={today}
+/>
+      {/* <form onSubmit={handleSubmit}>
         <Input
           label="Date of Arrival"
           type="date"
@@ -184,7 +199,7 @@ const AdminInterface = () => {
 >
   Clear
 </button>
-      </form>
+      </form> */}
       {/* <ul>
         {Object.entries(tablesBookedByCustomer).booking(([customer, numTables]) => (
           <li key={customer}>

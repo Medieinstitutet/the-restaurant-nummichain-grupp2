@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useRestaurantCreated from '../hooks/useRestaurantCreator';
 import '../styles/restaurantCreator.scss';
 
