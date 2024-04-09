@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useContracts } from './useContract';
 
 const useRestaurantCreated = () => {
-  const [restaurantExists, setRestaurantExists] = useState(false);
+  const [restaurantExists, setRestaurantExists] = useState(true);
   const [readContract, writeContract] = useContracts();
 
   const checkRestaurantExists = async () => {
@@ -16,8 +16,10 @@ const useRestaurantCreated = () => {
   };
 
   useEffect(() => {
-    checkRestaurantExists();
-  });
+    if (readContract) {
+        checkRestaurantExists();
+    }
+}, [readContract]);
 
   const createRestaurant = async (restaurantName) => {
     if (!writeContract) return;

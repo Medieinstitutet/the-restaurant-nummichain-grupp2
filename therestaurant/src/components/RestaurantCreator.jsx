@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useRestaurantCreated from '../hooks/useRestaurantCreator';
+import '../styles/restaurantCreator.scss';
 
 const RestaurantCreator = () => {
   const [restaurantName, setRestaurantName] = useState('');
@@ -10,14 +11,17 @@ const RestaurantCreator = () => {
   };
 
   return (
-    <div>
+    <div className="restaurant-creator-container">
+      <div className="restaurant-input-container">
       <input
         type="text"
         value={restaurantName}
         onChange={(e) => setRestaurantName(e.target.value)}
         placeholder="Restaurant Name"
       />
+      </div>
       <button
+        className="restaurant-creator-button"
         onClick={handleCreateRestaurant}
         style={{
             background: restaurantExists ? "#ddd" : "",
