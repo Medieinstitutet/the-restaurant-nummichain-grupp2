@@ -1,4 +1,18 @@
 @import '../../styles/global';
+.no-reservations {
+  color: #ff6b6b; 
+  background-color: #fff0f0; 
+  padding: 20px; 
+  text-align: center; 
+  position: fixed; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  border: 1px solid #ffcccc; 
+  border-radius: 10px; 
+  z-index: 2000; 
+}
+
 
 .bookings-list {
   list-style-type: none;
@@ -7,10 +21,10 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 200px; /* Set the width of the list */
-  overflow-y: auto; /* Add vertical scroll if content exceeds height */
-  background-color: #ffffff; /* Set background color */
-  z-index: 999; /* Ensure the list is above other content */
+  width: 200px;
+  overflow-y: auto; 
+  background-color: #ffffff; 
+  z-index: 999; 
 
   @include medium-to-large-screen {
     /* For medium to large screens, adjust the width as needed */

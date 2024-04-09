@@ -2,9 +2,10 @@ import './bookingListA.scss';
 import{reverseTimeSlotMapping} from'../../utils/timeSlot'
 
 const BookingsListA = ({ bookings, startEditBooking, handleRemoveBooking,  }) => {
-    
-    
-    // meddelande till reviewer: första retur
+    if (bookings.length === 0) {
+        return <div className="no-reservations">No reservations :(</div>;
+    }
+    // meddelande till reviewer: denna reurn är för att räkna hur många bord har varje kund har bokat
     return (
         <ul className="bookings-list">
           {bookings.map((booking, index) => {
