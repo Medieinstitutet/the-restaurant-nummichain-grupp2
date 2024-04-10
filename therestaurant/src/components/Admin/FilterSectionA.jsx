@@ -1,6 +1,8 @@
 import Input from "../../UI/Input";
 import { timeSlotMapping } from "../../utils/timeSlot";
 import "./filterSectionA.scss";
+import GuestAndTableInfo from"./TablesAndGuestsNumInfo"
+
 const FilterSection = ({
     selectedDate,
     setSelectedDate,
@@ -9,6 +11,9 @@ const FilterSection = ({
     searchBookings,
     setSearchBookings,
     resetFilters,
+    guestCount,
+    tableAvailabilityMessage,
+    filteredBookings,
 }) => {
     return (
         <>
@@ -61,7 +66,13 @@ const FilterSection = ({
                 <button className="button reset-button" onClick={resetFilters}>
                     Reset Filters
                 </button>
+                <GuestAndTableInfo
+                guestCount={guestCount}
+                tableAvailabilityMessage={tableAvailabilityMessage}
+                filteredBookings={filteredBookings}
+            />
             </div>
+           
         </>
     );
 };
