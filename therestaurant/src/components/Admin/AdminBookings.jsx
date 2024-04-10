@@ -11,6 +11,7 @@ import useBookingEditor from "../../hooks/useBookingEditor";
 import BookingsListA from "./BookingListA";
 import FilterSection from "./FilterSectionA.jsx";
 
+
 import { timeSlotMapping } from "../../utils/timeSlot";
 
 const AdminInterface = () => {
@@ -141,7 +142,10 @@ const AdminInterface = () => {
                 searchBookings={searchBookings}
                 setSearchBookings={setSearchBookings}
                 resetFilters={resetFilters}
-            />
+                guestCount={guestCount}
+                tableAvailabilityMessage={tableAvailabilityMessage}
+                filteredBookings={searchFilteredBookings}
+                />
 
             <FormManagement
                 guests={guests}
@@ -156,6 +160,7 @@ const AdminInterface = () => {
                 handleSubmit={handleSubmit}
                 stopEditing={stopEditing}
                 today={today}
+                
             />
             <BookingsListA
                 bookings={searchFilteredBookings}
@@ -163,34 +168,7 @@ const AdminInterface = () => {
                 handleRemoveBooking={handleRemoveBooking}
                 guestCount={guestCount}
             />
-            <div>
-                <h3>Chech Table Availability </h3>
-                <div>
-                    {tableAvailabilityMessage && (
-                        <p>{tableAvailabilityMessage}</p>
-                    )}
-                </div>
-
-                <h3>Customer Bookings</h3>
-                <h4>Per selected date and Time:</h4>
-                <h3>Guest Count </h3>
-                {Object.keys(guestCount).map((key) => (
-                    <div key={key}>{`${key}: ${guestCount[key]}`}</div>
-                ))}
-                <ul style={{ listStyleType: "none", padding: 0 }}>
-                    {searchFilteredBookings.map((booking, index) => (
-                        <li
-                            key={booking.id}
-                            style={{
-                                borderBottom:
-                                    index !== filteredBookingsData.length - 1
-                                        ? "1px solid #ccc"
-                                        : "none",
-                            }}
-                        ></li>
-                    ))}
-                </ul>
-            </div>
+            
         </>
     );
 };
