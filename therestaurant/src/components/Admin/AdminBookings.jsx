@@ -77,7 +77,7 @@ const AdminInterface = () => {
         editingBookingId,
       });
     } catch (error) {
-      // Handle errors, e.g., display error message to user
+   
       console.error("Failed to process booking:", error);
     }
   };
@@ -109,13 +109,16 @@ const AdminInterface = () => {
       );
       console.log("Total Booked Tables:", totalBookedTables);
 
-      setTableAvailabilityMessage("");
-    } else {
-      setTableAvailabilityMessage(
-        "Please select a date and time to check table availability.",
-      );
-    }
-  }, [bookings, selectedDate, selectedTimeSlot]);
+               // Log for debugging purposes
+          console.log("Available Tables (inside useEffect):", availableTables);
+      
+          setTableAvailabilityMessage(`Available Tables: ${availableTables}`);
+        } else {
+          setTableAvailabilityMessage(
+            "Please select a date and time to check table availability."
+          );
+        }
+      }, [bookings, selectedDate, selectedTimeSlot, availableTables]);
 
   const filteredBookingsData = useBookingFilter(
     bookings,
@@ -160,14 +163,12 @@ const AdminInterface = () => {
 
       <h3>Chech Table Availability </h3>
       <div>{tableAvailabilityMessage && <p>{tableAvailabilityMessage}</p>}</div>
-      <div>
-        Available Tables: {console.log(availableTables) || availableTables}
-      </div>
+
 
 
       <h3>Customer Bookings</h3>
-      <h3>Guest Count</h3>
       <h4>Per selected date and Time:</h4>
+      <h3>Guest Count </h3>
       {Object.keys(guestCount).map((key) => (
         <div key={key}>{`${key}: ${guestCount[key]}`}</div>
       ))}
