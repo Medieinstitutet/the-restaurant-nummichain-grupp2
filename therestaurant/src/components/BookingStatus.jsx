@@ -7,7 +7,7 @@ export const BookingStatus = ({ readContract, timeout }) => {
         <p className="notice">
             {bookingEvents.create === false
                 ? "Failed to create booking. Please try again."
-                : bookingEvents.create && "Booking created successfully!"}
+                : bookingEvents.create && "Booking created successfully! Information is in line with the General Data Protection Regulation (GDPR) "}
 
             {bookingEvents.delete === false
                 ? "Failed to delete booking. Please try again."
