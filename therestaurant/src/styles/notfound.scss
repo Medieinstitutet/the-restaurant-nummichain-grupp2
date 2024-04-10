@@ -1,0 +1,19 @@
+@use "./global.scss";
+
+.notfound-container {
+    background-image: url('./src/content/notfound.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 200px;
+  }
+
+  .notfoundtitle {
+    font-size: 5em;
+    font-weight: bold;
+    padding-top: 600px;
+  }
+  

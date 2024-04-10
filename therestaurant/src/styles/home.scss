@@ -1,0 +1,50 @@
+@use "./global.scss";
+
+.homepage-container {
+    background-image: url('./src/content/homepageimage.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 200px;
+  }
+  
+  .content-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 800px;
+    height: 350px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  button {
+    background-color: #f01e5f;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    background-color: #d91c52;
+  }
+  
+  .description-container {
+    margin-top: 20px;
+    font-size: 1.2em;
+    line-height: 1.5;
+    font-style: italic;
+  }
