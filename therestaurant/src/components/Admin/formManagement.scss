@@ -1,94 +1,98 @@
-@import '../../styles/global';
+@import "../../styles/global";
 
 .form-management {
-  h1 {
-    color: #d35400; 
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  form {
-    background-color: #fdf2e9;
-    padding: 20px;
-    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 20px auto;
 
-    .input-field,
-    select,
-    button[type="submit"],
-    button[type="button"] {
-      width: 100%;
-      padding: 8px 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ffaf40;
-      border-radius: 4px;
-      box-sizing: border-box; 
+    h1 {
+        color: #d35400;
+        margin-bottom: 20px;
+        font-size: $l;
     }
 
-    .input-field:focus,
-    select:focus {
-      border-color: #e67e22; 
-      outline: none;
+    form {
+        background-color: #fdf2e9;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 500px;
+        margin: 20px auto;
+
+        .input-field,
+        select,
+        button[type="submit"],
+        button[type="button"] {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ffaf40;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .input-field:focus,
+        select:focus {
+            border-color: #e67e22;
+            outline: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d35400;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            border-radius: 5px;
+
+            &:hover {
+                transform: translateY(-2px);
+            }
+        }
+
+        button[type="submit"] {
+            background-color: #e67e22;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #d35400;
+            }
+        }
+
+        button[type="button"] {
+            background-color: #ffa07a;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #ff7f50;
+            }
+        }
     }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #d35400; 
+    .booking-actions {
+        button {
+            background-color: #f39c12;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #e67e22;
+                color: #ffffff;
+            }
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #c0392b;
+            }
+        }
     }
-
-    button[type="submit"],
-    button[type="button"] {
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s, transform 0.2s;
-      border: none;
-      border-radius: 5px;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
-    }
-
-    button[type="submit"] {
-      background-color: #e67e22; 
-      color: #ffffff;
-
-      &:hover {
-        background-color: #d35400; 
-      }
-    }
-
-    button[type="button"] {
-      background-color: #ffa07a; 
-      color: #ffffff;
-
-      &:hover {
-        background-color: #ff7f50; 
-      }
-    }
-  }
-
-  .booking-actions {
-    button {
-      background-color: #f39c12; 
-      color: #ffffff;
-
-      &:hover {
-        background-color: #e67e22; 
-        color: #ffffff;
-      }
-    }
-
-    .cancel-button {
-      background-color: #e74c3c; 
-      color: #ffffff;
-
-      &:hover {
-        background-color: #c0392b; 
-      }
-    }
-  }
 }
