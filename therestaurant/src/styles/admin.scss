@@ -2,38 +2,70 @@
 
 .admin-container {
     display: flex;
-    
-  
-    .admin-sidebar {
-      flex: 0 0 250px; 
-      background-color: #ff9942;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-  
-      ul {
-        list-style: none;
-        padding: 0;
-  
-        li {
-          margin-bottom: 16px;
-  
-          a {
-            color: #000000;
-            text-decoration: none;
-            font-weight: 500;
-  
-            &:hover {
-              color: #ffffff;
-              text-decoration: underline;
-            }
-  
-            &.active {
-              color: #ffffff;
-              text-decoration: underline;
-            }
-          }
-        }
-      }
+    gap: 2rem;
+    margin-top: 4%;
+
+    @include global.small-screen {
+        flex-direction: column;
     }
-  }
+
+    .admin-sidebar {
+        flex: 0 0 250px;
+        background-color: #ff9942;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 25px;
+        border: 1px solid #555;
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                margin-bottom: 16px;
+
+                a {
+                    color: #000000;
+                    text-decoration: none;
+                    font-weight: 600;
+
+                    &:hover {
+                        color: #ffffff;
+                        text-decoration: underline;
+                    }
+
+                    &.active {
+                        color: #ffffff;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .admin-content {
+        width: 100%;
+    }
+
+    .admin-content > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+
+        @include global.small-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        > div:first-child {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .admin-content > .restaurant-creator-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

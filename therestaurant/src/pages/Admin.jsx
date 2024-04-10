@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { NavLink, Routes, Route } from 'react-router-dom';
 import CreateRestaurant from '../components/RestaurantCreator';
 import '../styles/admin.scss';
@@ -7,6 +7,7 @@ import ManageBookings from './ManageBookings';
 export const Admin = () => {
     
     return (
+        <div className='admin-Page'>
         <div className="admin-container">
             <nav className="admin-sidebar">
                 <ul>
@@ -17,8 +18,10 @@ export const Admin = () => {
             <main className="admin-content">
                 <Routes>
                     <Route path="/create-restaurant" element={<CreateRestaurant />} />
+                    <Route path="/manage-bookings" element={<ManageBookings />} />
                 </Routes>
             </main>
+        </div>
         </div>
     );
 };
