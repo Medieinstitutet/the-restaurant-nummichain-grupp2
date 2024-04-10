@@ -58,27 +58,26 @@
     text-align: center;
 }
 
-/* Apply mixins */
 @include small-screen {
     .booking-form {
-        width: 200px; /* Adjust width for small screens */
-    }
+        width: 200px; 
 }
 
 @include medium-screen {
     .booking-form {
-        width: 300px; /* Adjust width for medium screens */
+        width: 300px; 
     }
 }
 
 @include large-screen {
     .booking-form {
-        width: 500px; /* Adjust width for large screens */
+        width: 500px; 
     }
 }
 
 @include medium-to-large-screen {
     .booking-form {
-        width: 400px; /* Adjust width for medium to large screens */
+        width: 400px; 
     }
+}
 }
