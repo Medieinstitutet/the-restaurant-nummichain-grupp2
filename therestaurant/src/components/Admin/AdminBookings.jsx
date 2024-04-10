@@ -9,8 +9,8 @@ import { useBookingSubmission } from "../../hooks/useBookingHandleSubmition";
 import useBookingEditor from "../../hooks/useBookingEditor";
 
 import BookingsListA from "./BookingListA";
+import FilterSection from './FilterSectionA.jsx';
 
-import Input from "../../UI/Input";
 
 import { timeSlotMapping } from "../../utils/timeSlot";
 
@@ -86,9 +86,9 @@ const AdminInterface = () => {
     await removeBooking(id);
   };
 
-  const handleChangeInSearch = (e) => {
-    setSearchBookings(e.target.value);
-  };
+  // const handleChangeInSearch = (e) => {
+  //   setSearchBookings(e.target.value);
+  // };
 
   const resetFilters = () => {
     setSelectedDate("");
@@ -130,6 +130,17 @@ const AdminInterface = () => {
 
   return (
     <div>
+       <div>
+<FilterSection
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        selectedTimeSlot={selectedTimeSlot}
+        setSelectedTimeSlot={setSelectedTimeSlot}
+        searchBookings={searchBookings}
+        setSearchBookings={setSearchBookings}
+        resetFilters={resetFilters}
+      />
+      </div>
    
       <FormManagement
   guests={guests}
@@ -145,116 +156,15 @@ const AdminInterface = () => {
   stopEditing={stopEditing}
   today={today}
 />
-      {/* <form onSubmit={handleSubmit}>
-        <Input
-          label="Date of Arrival"
-          type="date"
-          min={today}
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
-        <div>
-          <label htmlFor="timeSlot">Time Slot</label>
-          <select
-            name="timeSlot"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          >
-            {Object.keys(timeSlotMapping).map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-        </div>
-        <Input
-          label="Number of Guests"
-          type="number"
-          placeholder="Number of Guests"
-          value={guests}
-          onChange={(e) => setGuests(e.target.value)}
-          min="1"
-          step="1"
-          required
-        />
-        <Input
-          label="Customer Name"
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <button type="submit">
-          {isEditing ? "Save Changes" : "Confirm Booking"}
-        </button>
-        <button
-  type="button"
-  onClick={() => {
-    if (window.confirm("Are you sure you want to clear the form?")) {
-      stopEditing();
-    }
-  }}
->
-  Clear
-</button>
-      </form> */}
-      {/* <ul>
-        {Object.entries(tablesBookedByCustomer).booking(([customer, numTables]) => (
-          <li key={customer}>
-            {`${customer}: ${numTables} tables`}
-          </li>
-        ))}
-      </ul>  */}
-      <h3>Filter Bookings</h3>
-      <div>
-        <label htmlFor="filterDate">Select Date:</label>
-        <input
-          type="date"
-          id="filterDate"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="filterTimeSlot">Select Time Slot:</label>
-        <select
-          id="filterTimeSlot"
-          value={selectedTimeSlot}
-          onChange={(e) => setSelectedTimeSlot(e.target.value)}
-        >
-          <option value="">All Time Slots</option>
-          {Object.keys(timeSlotMapping).map((key) => (
-            <option key={key} value={key}>
-              {key}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div style={{ marginButtom: 0 }}>
-        <Input
-          label="Search Bookings"
-          type="text"
-          placeholder="Search Bookings"
-          value={searchBookings}
-          onChange={handleChangeInSearch}
-        />
-        <button onClick={resetFilters}>Reset All Filters</button>
-      </div>
+     
+
       <h3>Chech Table Availability </h3>
       <div>{tableAvailabilityMessage && <p>{tableAvailabilityMessage}</p>}</div>
       <div>
         Available Tables: {console.log(availableTables) || availableTables}
-      </div>{" "}
-      {/*behöver utredas/*}
-      {/* <ul>
-        {/* {Object.entries(customerBookings).booking(([customer, numTables]) => (
-          <li key={customer}>
-            {`${customer}: ${numTables} tables`}
-          </li> */}
-      {/* ))}
-      </ul> */}
+      </div>
+
+
       <h3>Customer Bookings</h3>
       <h3>Guest Count</h3>
       <h4>Per selected date and Time:</h4>

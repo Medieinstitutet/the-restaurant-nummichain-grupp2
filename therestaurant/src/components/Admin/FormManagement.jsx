@@ -17,7 +17,7 @@ const FormManagement = ({
 }) => {
   return (
     <div className="form-management">
-      <h2>{isEditing ? "Edit Booking" : "Create Booking"}</h2>
+      <h1>{isEditing ? "Edit Booking" : "Create Booking"}</h1>
       <form onSubmit={handleSubmit}>
         <Input
           label="Date of Arrival"
