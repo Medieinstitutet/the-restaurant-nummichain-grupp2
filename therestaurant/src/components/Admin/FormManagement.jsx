@@ -24,7 +24,7 @@ const FormManagement = ({
                     type="date"
                     min={today}
                     value={date}
-                    className="input-field" // Added class for styling
+                    className="input-field" 
                     onChange={(e) => setDate(e.target.value)}
                     required
                 />
@@ -32,7 +32,7 @@ const FormManagement = ({
                     <label htmlFor="timeSlot">Time Slot</label>
                     <select
                         name="timeSlot"
-                        className="input-field" // Use the same class for consistent styling
+                        className="input-field" 
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
                     >
@@ -47,7 +47,7 @@ const FormManagement = ({
                     label="Number of Guests"
                     type="number"
                     value={guests}
-                    className="input-field" // Added class for styling
+                    className="input-field" 
                     onChange={(e) => setGuests(e.target.value)}
                     min="1"
                     step="1"
@@ -57,7 +57,7 @@ const FormManagement = ({
                     label="Customer Name"
                     type="text"
                     value={name}
-                    className="input-field" // Added class for styling
+                    className="input-field" 
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
@@ -66,7 +66,7 @@ const FormManagement = ({
                 </button>
                 <button
                     type="button"
-                    className="cancel-button" // Use specific class for the cancel button
+                    className="cancel-button" 
                     onClick={() => {
                         if (
                             window.confirm(

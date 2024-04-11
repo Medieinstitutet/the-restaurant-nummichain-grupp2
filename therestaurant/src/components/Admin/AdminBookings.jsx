@@ -67,7 +67,7 @@ const AdminInterface = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // Call submitBooking with form data, handling both create and edit operations
+         
             await submitBooking(event, {
                 guests,
                 name,
@@ -107,7 +107,7 @@ const AdminInterface = () => {
             ).reduce((acc, cur) => acc + cur, 0);
             console.log("Total Booked Tables:", totalBookedTables);
 
-            // Log for debugging purposes
+         
             console.log(
                 "Available Tables (inside useEffect):",
                 availableTables

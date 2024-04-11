@@ -14,7 +14,7 @@ const useBookingFilter = (bookings, selectedDate, selectedTimeSlot, searchBookin
           (!selectedTimeSlot || booking.time === timeSlotMapping[selectedTimeSlot])
       );
       
-      // Then filter by search term
+      //  filter by search term
       newFilteredBookings = newFilteredBookings.filter((booking) =>
         booking.name.toLowerCase().includes(searchBookings.toLowerCase())
       );

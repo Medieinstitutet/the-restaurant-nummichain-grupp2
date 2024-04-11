@@ -19,7 +19,7 @@ const BookingsListA = ({ bookings, startEditBooking, handleRemoveBooking,  }) =>
                   <div>Customer Name: {booking.name}</div>
                   <div>Date: {booking.date}</div>
                   <div>Guests: {String(booking.numberOfGuests)}</div>
-                  <div>Booked Tables: {bookedTables}</div> {/* No need to convert to string */}
+                  <div>Booked Tables: {bookedTables}</div> 
                   <div>Time Slot: {reverseTimeSlotMapping(booking.time)}</div>
                 </div>
                 <div className="booking-actions">

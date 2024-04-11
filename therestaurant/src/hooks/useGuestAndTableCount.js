@@ -14,7 +14,7 @@ export const useGuestAndTableCount = (bookings, selectedDate, selectedTimeSlot) 
         reverseTimeSlotMapping(booking.time) === selectedTimeSlot
       ) {
         const key = `${booking.date}-${reverseTimeSlotMapping(booking.time)}`;
-        // Ensure numberOfGuests is a valid number before proceeding
+       
         const numberOfGuestsParsed = parseInt(booking.numberOfGuests, 10) || 0;
         guestCount[key] = (guestCount[key] || 0) + numberOfGuestsParsed;
 
