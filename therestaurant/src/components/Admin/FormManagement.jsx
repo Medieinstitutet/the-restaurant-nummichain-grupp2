@@ -1,6 +1,9 @@
 import Input from "../../UI/Input";
 import { timeSlotMapping } from "../../utils/timeSlot";
 import "./formManagement.scss";
+
+
+
 const FormManagement = ({
     guests,
     setGuests,
@@ -14,7 +17,13 @@ const FormManagement = ({
     handleSubmit,
     stopEditing,
     today,
+    hasBookingChanged
 }) => {
+
+
+
+
+
     return (
         <div className="form-management">
             <h1>{isEditing ? "Edit Booking" : "Create Booking"}</h1>
@@ -61,7 +70,7 @@ const FormManagement = ({
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                <button type="submit" className="submit-button">
+                <button type="submit" disabled={!hasBookingChanged} className="submit-button">
                     {isEditing ? "Save Changes" : "Confirm Booking"}
                 </button>
                 <button

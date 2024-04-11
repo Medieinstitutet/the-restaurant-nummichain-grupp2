@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useContracts } from "../../hooks/useContract";
 
 import useBookingManagement from "../../hooks/useBookingManagement";
-import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
+// import { useGuestAndTableCount } from "../../hooks/useGuestAndTableCount";
+import { calculateGuestAndTableCount } from "../../utils/checkTableAvailabity";
 import useBookingFilter from "../../hooks/useBookingFilter";
 import { useBookingSubmission } from "../../hooks/useBookingHandleSubmition";
 import useBookingEditor from "../../hooks/useBookingEditor";
@@ -23,7 +24,8 @@ const AdminInterface = () => {
     const [name, setName] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("18:00 - 21:00");
-
+    const [availabilityInfo, setAvailabilityInfo] = useState({guestCount: {}, tablesBookedByCustomer: {}, availableTables: 15});
+    
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
     const [searchBookings, setSearchBookings] = useState("");
@@ -33,8 +35,8 @@ const AdminInterface = () => {
         useState("");
     const restaurantID = 1;
 
-    const { guestCount, tablesBookedByCustomer, availableTables } =
-        useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
+    // const { guestCount, tablesBookedByCustomer, availableTables } =
+    //     useGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
 
     const {
         isEditing,
@@ -54,7 +56,7 @@ const AdminInterface = () => {
     const submitBooking = useBookingSubmission({
         createBooking,
         editBooking,
-        availableTables,
+        // availableTables,
         setGuests,
         setName,
         setDate,
@@ -97,29 +99,13 @@ const AdminInterface = () => {
 
     useEffect(() => {
         if (selectedDate && selectedTimeSlot) {
-            console.log("Initial bookings:", bookings);
-
-            console.log("Guest Count:", guestCount);
-            console.log("Tables Booked by Customer:", tablesBookedByCustomer);
-
-            const totalBookedTables = Object.values(
-                tablesBookedByCustomer
-            ).reduce((acc, cur) => acc + cur, 0);
-            console.log("Total Booked Tables:", totalBookedTables);
-
-         
-            console.log(
-                "Available Tables (inside useEffect):",
-                availableTables
-            );
-
+            const { guestCount, tablesBookedByCustomer, availableTables } = calculateGuestAndTableCount(bookings, selectedDate, selectedTimeSlot);
+            setAvailabilityInfo({ guestCount, tablesBookedByCustomer, availableTables });
             setTableAvailabilityMessage(`Available Tables: ${availableTables}`);
         } else {
-            setTableAvailabilityMessage(
-                "Please select a date and time to check table availability."
-            );
+            setTableAvailabilityMessage("Please select a date and time to check table availability.");
         }
-    }, [bookings, selectedDate, selectedTimeSlot, availableTables]);
+    }, [bookings, selectedDate, selectedTimeSlot]);
 
     const filteredBookingsData = useBookingFilter(
         bookings,
@@ -142,7 +128,7 @@ const AdminInterface = () => {
                 searchBookings={searchBookings}
                 setSearchBookings={setSearchBookings}
                 resetFilters={resetFilters}
-                guestCount={guestCount}
+                guestCount={availabilityInfo.guestCount}
                 tableAvailabilityMessage={tableAvailabilityMessage}
                 filteredBookings={searchFilteredBookings}
                 />
@@ -160,13 +146,14 @@ const AdminInterface = () => {
                 handleSubmit={handleSubmit}
                 stopEditing={stopEditing}
                 today={today}
+                hasBookingChanged={hasBookingChanged}
                 
             />
             <BookingsListA
                 bookings={searchFilteredBookings}
                 startEditBooking={startEditBooking}
                 handleRemoveBooking={handleRemoveBooking}
-                guestCount={guestCount}
+                // guestCount={guestCount}
             />
             
         </>

@@ -14,7 +14,7 @@ const useBookingFilter = (bookings, selectedDate, selectedTimeSlot, searchBookin
           (!selectedTimeSlot || booking.time === timeSlotMapping[selectedTimeSlot])
       );
       
-      //  filter by search term
+    
       newFilteredBookings = newFilteredBookings.filter((booking) =>
         booking.name.toLowerCase().includes(searchBookings.toLowerCase())
       );
@@ -26,29 +26,3 @@ const useBookingFilter = (bookings, selectedDate, selectedTimeSlot, searchBookin
   };
   
   export default useBookingFilter; 
-// import { useEffect, useState } from "react";
-
-// const useBookingFilter= (bookings, selectedDate, selectedTimeSlot, searchBookings, timeSlotMapping) => {
-//     const [filteredBookings, setFilteredBookings] = useState([]);
-  
-//     useEffect(() => {
-//       const filterByDateAndTimeSlot = bookings.filter(
-//         (booking) =>
-//           (!selectedDate || booking.date === selectedDate) &&
-//           (!selectedTimeSlot ||
-//             booking.time === timeSlotMapping[selectedTimeSlot])
-//       );
-//       setFilteredBookings(filterByDateAndTimeSlot);
-//     }, [bookings, selectedDate, selectedTimeSlot, timeSlotMapping]);
-  
-//     useEffect(() => {
-//       const filterBySearchTerm = filteredBookings.filter((booking) =>
-//         booking.name.toLowerCase().includes(searchBookings.toLowerCase())
-//       );
-//       setFilteredBookings(filterBySearchTerm);
-//     }, [searchBookings, filteredBookings]);
-  
-//     return filteredBookings;
-//   };
-  
-//   export default useBookingFilter;
